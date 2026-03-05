@@ -3,7 +3,7 @@ import { Menu, X } from 'lucide-react';
 import logoImg from '../assets/logo-navbar.jpg';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const Navbar = () => {
+const Navbar = ({ onOpenModal }) => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -57,7 +57,10 @@ const Navbar = () => {
                             {link.name}
                         </a>
                     ))}
-                    <button className="bg-primary hover:bg-secondary text-white font-sans font-semibold py-2 px-6 rounded-full transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                    <button
+                        onClick={onOpenModal}
+                        className="bg-primary hover:bg-secondary text-white font-sans font-semibold py-2 px-6 rounded-full transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                    >
                         Reservar
                     </button>
                 </nav>
@@ -90,7 +93,13 @@ const Navbar = () => {
                                 {link.name}
                             </a>
                         ))}
-                        <button className="bg-primary text-white font-sans font-bold py-3 px-8 rounded-full mt-2 shadow-lg">
+                        <button
+                            onClick={() => {
+                                setMobileMenuOpen(false);
+                                onOpenModal();
+                            }}
+                            className="bg-primary text-white font-sans font-bold py-3 px-8 rounded-full mt-2 shadow-lg"
+                        >
                             Reservar Ahora
                         </button>
                     </motion.nav>

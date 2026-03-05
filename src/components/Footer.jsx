@@ -1,5 +1,6 @@
 import React from 'react';
-import { Plane, Facebook, Instagram, Twitter, Linkedin, Heart } from 'lucide-react';
+import { Facebook, Instagram, Twitter, Linkedin, Heart } from 'lucide-react';
+import logoImg from '../assets/logo-navbar.jpg';
 
 const Footer = () => {
     return (
@@ -9,8 +10,8 @@ const Footer = () => {
                     {/* Brand Column */}
                     <div className="flex flex-col">
                         <a href="#" className="flex items-center gap-2 mb-6 group">
-                            <div className="bg-white text-primary p-2 rounded-full group-hover:bg-secondary group-hover:text-white transition-colors">
-                                <Plane size={24} className="transform -rotate-45" />
+                            <div className="w-16 h-auto md:w-20 transition-transform hover:scale-105 flex items-center justify-center shrink-0 bg-white p-1 rounded-xl">
+                                <img src={logoImg} alt="Stechi Tours Logo" className="w-full h-auto object-contain block rounded-lg" />
                             </div>
                             <div className="flex flex-col">
                                 <span className="font-serif text-2xl font-bold leading-none text-white tracking-wider">
