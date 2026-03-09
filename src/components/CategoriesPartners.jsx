@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 const categories = [
     { id: 1, name: 'Playas y Sol', image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2073&auto=format&fit=crop' },
@@ -27,9 +28,9 @@ const CategoriesPartners = () => {
                             </h2>
                             <div className="h-1 bg-secondary rounded-full w-24"></div>
                         </div>
-                        <button className="hidden md:block font-sans font-semibold text-secondary hover:text-primary transition-colors">
+                        <Link to="/destinos" className="hidden md:block font-sans font-semibold text-secondary hover:text-primary transition-colors">
                             Ver todas las categorías &rarr;
-                        </button>
+                        </Link>
                     </div>
 
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
@@ -56,9 +57,9 @@ const CategoriesPartners = () => {
                             </motion.div>
                         ))}
                     </div>
-                    <button className="md:hidden mt-6 w-full font-sans font-semibold text-secondary text-center">
+                    <Link to="/destinos" className="md:hidden mt-6 w-full font-sans font-semibold text-secondary text-center block">
                         Ver todas las categorías &rarr;
-                    </button>
+                    </Link>
                 </div>
 
                 {/* Partners Strip */}

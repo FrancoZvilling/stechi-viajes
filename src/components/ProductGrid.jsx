@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Plane, Hotel, Coffee, Map } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const packages = [
     {
@@ -148,9 +149,9 @@ const ProductGrid = () => {
                 </div>
 
                 <div className="text-center mt-16">
-                    <button className="border-2 border-primary text-primary hover:bg-primary hover:text-white font-sans font-bold py-3 px-10 rounded-full transition-all shadow-sm hover:shadow-md">
+                    <Link to="/destinos" className="inline-block border-2 border-primary text-primary hover:bg-primary hover:text-white font-sans font-bold py-3 px-10 rounded-full transition-all shadow-sm hover:shadow-md">
                         Ver Todos los Destinos
-                    </button>
+                    </Link>
                 </div>
             </div>
         </section>
