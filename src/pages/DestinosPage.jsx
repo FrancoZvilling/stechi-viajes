@@ -1,34 +1,37 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, MapPin, Calendar, Users, Filter, Plane, X } from 'lucide-react';
+import { Search, MapPin, Calendar, Users, Filter, Plane, X, Hotel, Coffee, Map, Umbrella, Mountain, Camera } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
 
-// Hardcoded data with 15 destinations
-const allDestinations = [
-    { id: 1, title: 'Escapada a Ibiza', price: 'USD 1,500', originalPrice: 'USD 1,800', continent: 'Europa', country: 'España', type: 'Playa', image: 'https://images.unsplash.com/photo-1533676802871-eca1ae998cd5?q=80&w=2069&auto=format&fit=crop', description: 'Disfruta de las mejores fiestas y playas del Mediterráneo.' },
-    { id: 2, title: 'Paraíso en Cancún', price: 'USD 890', originalPrice: 'USD 1,100', continent: 'América', country: 'México', type: 'Playa', image: 'https://images.unsplash.com/photo-1552074284-5e88ef1aef18?q=80&w=1974&auto=format&fit=crop', description: 'Aguas cristalinas y resorts all-inclusive te esperan.' },
-    { id: 3, title: 'Aventura en Bariloche', price: 'USD 450', originalPrice: null, continent: 'América', country: 'Argentina', type: 'Montaña', image: 'https://images.unsplash.com/photo-1598162480222-b2c3d92548d5?q=80&w=1170&auto=format&fit=crop', description: 'Nieve, lagos y el mejor chocolate artesanal del sur.' },
-    { id: 4, title: 'Roma Histórica', price: 'USD 1,200', originalPrice: 'USD 1,400', continent: 'Europa', country: 'Italia', type: 'Ciudad', image: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?q=80&w=1996&auto=format&fit=crop', description: 'Camina por las calles del Imperio Romano y degusta la mejor pasta.' },
-    { id: 5, title: 'Compras en Miami', price: 'USD 950', originalPrice: null, continent: 'América', country: 'Estados Unidos', type: 'Playa', image: 'https://images.unsplash.com/photo-1533106497176-45ae19e68ba2?q=80&w=2070&auto=format&fit=crop', description: 'Sol, arena y los mejores shoppings en Florida.' },
-    { id: 6, title: 'Misterio de Machu Picchu', price: 'USD 780', originalPrice: 'USD 900', continent: 'América', country: 'Perú', type: 'Montaña', image: 'https://images.unsplash.com/photo-1587595431973-160d0d94add1?q=80&w=2076&auto=format&fit=crop', description: 'Explora una de las maravillas del mundo antiguo.' },
-    { id: 7, title: 'Luces de Tokio', price: 'USD 2,100', originalPrice: 'USD 2,500', continent: 'Asia', country: 'Japón', type: 'Ciudad', image: 'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?q=80&w=1974&auto=format&fit=crop', description: 'La mezcla perfecta entre tecnología futurista y tradición milenaria.' },
-    { id: 8, title: 'Relax en Maldivas', price: 'USD 3,200', originalPrice: 'USD 3,800', continent: 'Asia', country: 'Maldivas', type: 'Playa', image: 'https://images.unsplash.com/photo-1514282401047-d79a71a590e8?q=80&w=1965&auto=format&fit=crop', description: 'Villas privadas sobre el agua cristalina del océano Índico.' },
-    { id: 9, title: 'Nueva York en Invierno', price: 'USD 1,300', originalPrice: null, continent: 'América', country: 'Estados Unidos', type: 'Ciudad', image: 'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?q=80&w=2070&auto=format&fit=crop', description: 'Vive la magia de la gran manzana nevada y sus rascacielos.' },
-    { id: 10, title: 'Romance en París', price: 'USD 1,600', originalPrice: 'USD 1,900', continent: 'Europa', country: 'Francia', type: 'Ciudad', image: 'https://images.unsplash.com/photo-1499856871958-5b9627545d1a?q=80&w=2020&auto=format&fit=crop', description: 'La ciudad del amor, la Torre Eiffel y una gastronomía única.' },
-    { id: 11, title: 'Lujo en Dubai', price: 'USD 2,500', originalPrice: 'USD 2,800', continent: 'Asia', country: 'EAU', type: 'Ciudad', image: 'https://images.unsplash.com/photo-1518684079-3c830dcef090?q=80&w=1974&auto=format&fit=crop', description: 'Descubre los rascacielos más altos y el encanto del desierto.' },
-    { id: 12, title: 'Punta Cana All Inclusive', price: 'USD 850', originalPrice: 'USD 1,000', continent: 'América', country: 'Rep. Dominicana', type: 'Playa', image: 'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?q=80&w=2070&auto=format&fit=crop', description: 'Bebidas tropicales y arenas blancas en el Caribe.' },
-    { id: 13, title: 'Atardeceres en Santorini', price: 'USD 1,800', originalPrice: 'USD 2,200', continent: 'Europa', country: 'Grecia', type: 'Playa', image: 'https://images.unsplash.com/photo-1613395877344-13d4a8e0d49e?q=80&w=1964&auto=format&fit=crop', description: 'Mar azul profundo y casas blancas en los acantilados griegos.' },
-    { id: 14, title: 'Esquí en Mont Blanc', price: 'USD 1,900', originalPrice: null, continent: 'Europa', country: 'Francia', type: 'Montaña', image: 'https://images.unsplash.com/photo-1605128005752-d1714260611e?q=80&w=1331&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', description: 'Las mejores pistas de esquí en los Alpes franceses.' },
-    { id: 15, title: 'Espiritualidad en Bali', price: 'USD 1,400', originalPrice: 'USD 1,600', continent: 'Asia', country: 'Indonesia', type: 'Playa', image: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?q=80&w=1938&auto=format&fit=crop', description: 'Templo, arrozales y playas paradisíacas te aguardan.' }
-];
+import { useTrips } from '../hooks/useTrips';
+
+const iconMap = {
+    Plane: <Plane size={14} />,
+    Hotel: <Hotel size={14} />,
+    Coffee: <Coffee size={14} />,
+    Map: <Map size={14} />,
+    Umbrella: <Umbrella size={14} />,
+    Mountain: <Mountain size={14} />,
+    Camera: <Camera size={14} />
+};
 
 const DestinosPage = () => {
+    const { trips: allDestinations, isLoading } = useTrips();
+
     // State for filters
     const [selectedContinent, setSelectedContinent] = useState('');
     const [selectedCountry, setSelectedCountry] = useState('');
     const [selectedType, setSelectedType] = useState('');
+    const [selectedPassengers, setSelectedPassengers] = useState('');
+    const [dateRange, setDateRange] = useState([null, null]);
+    const [filterStartDate, filterEndDate] = dateRange;
 
     // Extract dynamic filter options
-    const continents = useMemo(() => ['Todos', ...new Set(allDestinations.map(d => d.continent))], []);
+    const continents = useMemo(() => ['Todos', ...new Set(allDestinations.map(d => d.continent))], [allDestinations]);
 
     // Countries react to the selected continent
     const availableCountries = useMemo(() => {
@@ -37,9 +40,9 @@ const DestinosPage = () => {
             filtered = filtered.filter(d => d.continent === selectedContinent);
         }
         return ['Todos', ...new Set(filtered.map(d => d.country))];
-    }, [selectedContinent]);
+    }, [selectedContinent, allDestinations]);
 
-    const types = useMemo(() => ['Todos', ...new Set(allDestinations.map(d => d.type))], []);
+    const types = useMemo(() => ['Todos', ...new Set(allDestinations.map(d => d.type))], [allDestinations]);
 
     // Filter the trips based on selected filters
     const filteredTrips = useMemo(() => {
@@ -47,9 +50,27 @@ const DestinosPage = () => {
             const matchContinent = !selectedContinent || selectedContinent === 'Todos' || trip.continent === selectedContinent;
             const matchCountry = !selectedCountry || selectedCountry === 'Todos' || trip.country === selectedCountry;
             const matchType = !selectedType || selectedType === 'Todos' || trip.type === selectedType;
-            return matchContinent && matchCountry && matchType;
+            // Si el viaje no tiene cupo (trip.passengers === null), se muestra para cualquier filtro. Si lo tiene, debe hacer match.
+            const matchPassengers = !selectedPassengers || selectedPassengers === 'Cualquiera' || !trip.passengers || trip.passengers === selectedPassengers;
+            
+            let matchDate = true;
+            if (filterStartDate) {
+                if (!trip.startDate || !trip.endDate) {
+                    matchDate = true; // Flexible viajes always match
+                } else {
+                    const tripStart = new Date(trip.startDate);
+                    const tripEnd = new Date(trip.endDate);
+                    if (filterStartDate && !filterEndDate) {
+                        matchDate = tripEnd >= filterStartDate;
+                    } else if (filterStartDate && filterEndDate) {
+                        matchDate = tripStart <= filterEndDate && tripEnd >= filterStartDate;
+                    }
+                }
+            }
+
+            return matchContinent && matchCountry && matchType && matchPassengers && matchDate;
         });
-    }, [selectedContinent, selectedCountry, selectedType]);
+    }, [selectedContinent, selectedCountry, selectedType, selectedPassengers, dateRange, allDestinations]);
 
     // Reset dependent filters if parent filter changes
     const handleContinentChange = (e) => {
@@ -61,13 +82,24 @@ const DestinosPage = () => {
         setSelectedContinent('Todos');
         setSelectedCountry('Todos');
         setSelectedType('Todos');
+        setSelectedPassengers('Cualquiera');
+        setDateRange([null, null]);
     };
 
     const activeFiltersCount = [
         selectedContinent && selectedContinent !== 'Todos',
         selectedCountry && selectedCountry !== 'Todos',
-        selectedType && selectedType !== 'Todos'
+        selectedType && selectedType !== 'Todos',
+        selectedPassengers && selectedPassengers !== 'Cualquiera',
+        filterStartDate !== null
     ].filter(Boolean).length;
+
+    const formatTripDates = (startIso, endIso) => {
+        if (!startIso || !endIso) return 'Fechas Flexibles';
+        const start = new Date(startIso);
+        const end = new Date(endIso);
+        return `${format(start, 'dd MMM', { locale: es })} - ${format(end, 'dd MMM', { locale: es })}`;
+    };
 
     return (
         <div className="min-h-screen bg-gray-50 pt-20 pb-20">
@@ -136,6 +168,16 @@ const DestinosPage = () => {
                         )}
                     </div>
 
+                    {isLoading ? (
+                        <div className="py-10 text-center flex flex-col items-center">
+                             <div className="animate-spin rounded-full h-8 w-8 border-2 border-secondary border-t-transparent mb-2"></div>
+                             <p className="text-gray-500">Cargando destinos...</p>
+                        </div>
+                    ) : allDestinations.length === 0 ? (
+                        <div className="py-10 text-center">
+                            <p className="text-gray-500 font-sans font-semibold">Cargando catálogo... si demoramos, revisa el modo Administrador.</p>
+                        </div>
+                    ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
 
                         {/* dynamic: Continent */}
@@ -174,31 +216,47 @@ const DestinosPage = () => {
                             </select>
                         </div>
 
-                        {/* static: Dates */}
-                        <div className="flex flex-col">
+                        {/* dynamic: Dates */}
+                        <div className="flex flex-col relative z-20">
                             <label className="text-[0.65rem] font-bold text-gray-500 uppercase tracking-wider mb-2">Fechas</label>
-                            <div className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 flex items-center gap-2 group cursor-pointer hover:bg-gray-100 transition-colors">
-                                <Calendar size={18} className="text-secondary" />
-                                <input type="text" placeholder="Ida y Vuelta" className="bg-transparent border-none outline-none w-full text-primary font-sans font-semibold placeholder-gray-400 cursor-pointer" readOnly />
+                            <div className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 flex items-center gap-2 group cursor-pointer hover:bg-gray-100 transition-colors w-full h-[46px]">
+                                <Calendar size={18} className="text-secondary shrink-0" />
+                                <DatePicker
+                                    selectsRange={true}
+                                    startDate={filterStartDate}
+                                    endDate={filterEndDate}
+                                    onChange={(update) => setDateRange(update)}
+                                    isClearable={true}
+                                    dateFormat="dd/MM/yyyy"
+                                    placeholderText="Ida y Vuelta"
+                                    className="bg-transparent border-none outline-none w-full text-primary font-sans font-semibold placeholder-gray-400 cursor-pointer h-full"
+                                    calendarClassName="shadow-2xl border-none rounded-2xl"
+                                />
                             </div>
                         </div>
 
-                        {/* static: Passengers */}
+                        {/* dynamic: Passengers */}
                         <div className="flex flex-col">
                             <label className="text-[0.65rem] font-bold text-gray-500 uppercase tracking-wider mb-2">Pasajeros</label>
                             <div className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 flex items-center gap-2">
                                 <Users size={18} className="text-secondary" />
-                                <select className="bg-transparent border-none outline-none text-primary font-sans font-semibold w-full cursor-pointer">
-                                    <option>1 Adulto</option>
-                                    <option>2 Adultos</option>
-                                    <option>2 Adultos, 1 Niño</option>
-                                    <option>2 Adultos, 2 Niños</option>
-                                    <option>Familia Numerosa</option>
+                                <select 
+                                    value={selectedPassengers}
+                                    onChange={(e) => setSelectedPassengers(e.target.value)}
+                                    className="bg-transparent border-none outline-none text-primary font-sans font-semibold w-full cursor-pointer"
+                                >
+                                    <option value="Cualquiera">Cualquiera</option>
+                                    <option value="1 Adulto">1 Adulto</option>
+                                    <option value="2 Adultos">2 Adultos</option>
+                                    <option value="2 Adultos, 1 Niño">2 Adultos, 1 Niño</option>
+                                    <option value="2 Adultos, 2 Niños">2 Adultos, 2 Niños</option>
+                                    <option value="Familia Numerosa">Familia Numerosa</option>
                                 </select>
                             </div>
                         </div>
 
                     </div>
+                    )}
                 </motion.div>
 
                 {/* Results Counter */}
@@ -244,23 +302,49 @@ const DestinosPage = () => {
                                         <h3 className="text-xl font-bold font-serif text-primary mb-2 group-hover:text-secondary transition-colors">
                                             {pkg.title}
                                         </h3>
-                                        <p className="text-gray-500 text-sm mb-6 flex-grow font-sans">
-                                            {pkg.description}
+                                        <p className="text-gray-500 text-sm mb-4 flex-grow font-sans line-clamp-3">
+                                            {pkg.shortDescription || pkg.description}
                                         </p>
+
+                                        {/* Tags */}
+                                        {pkg.tags && pkg.tags.length > 0 && (
+                                            <div className="flex flex-wrap gap-2 mb-4">
+                                                {pkg.tags.map((tag, i) => (
+                                                    <span key={i} className="bg-blue-50 text-secondary text-xs font-semibold px-2.5 py-1 rounded-md flex items-center gap-1">
+                                                        {iconMap[tag.icon] || <Plane size={14} />} {tag.text}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        )}
+
+                                        <div className="flex flex-wrap items-center gap-3 text-primary font-sans text-xs font-semibold mb-6">
+                                            <div className="flex items-center gap-1.5 bg-gray-50 px-2 py-1.5 rounded-lg border border-gray-100">
+                                                <Calendar size={14} className="text-secondary" />
+                                                <span>{(pkg.startDate && pkg.endDate) ? formatTripDates(pkg.startDate, pkg.endDate) : (pkg.dates || 'Fechas Flexibles')}</span>
+                                            </div>
+                                            {pkg.passengers && (
+                                                <div className="flex items-center gap-1.5 bg-gray-50 px-2 py-1.5 rounded-lg border border-gray-100">
+                                                    <Users size={14} className="text-secondary" />
+                                                    <span>{pkg.passengers}</span>
+                                                </div>
+                                            )}
+                                        </div>
 
                                         <div className="flex items-end justify-between mt-auto">
                                             <div>
-                                                <span className="text-xs text-gray-400 block font-semibold uppercase tracking-wider">Desde</span>
+                                                {pkg.price && !pkg.price.toLowerCase().includes('consultar') && (
+                                                    <span className="text-xs text-gray-400 block font-semibold uppercase tracking-wider">Desde</span>
+                                                )}
                                                 <div className="flex items-center gap-2">
-                                                    <span className="text-2xl font-bold text-primary font-sans">{pkg.price}</span>
-                                                    {pkg.originalPrice && (
+                                                    <span className={`font-bold text-primary font-sans ${pkg.price && pkg.price.toLowerCase().includes('consultar') ? 'text-lg max-w-[120px] leading-tight' : 'text-2xl'}`}>{pkg.price}</span>
+                                                    {pkg.originalPrice && (!pkg.price || !pkg.price.toLowerCase().includes('consultar')) && (
                                                         <span className="text-sm text-gray-400 line-through font-medium">{pkg.originalPrice}</span>
                                                     )}
                                                 </div>
                                             </div>
-                                            <button className="bg-primary hover:bg-secondary text-white p-3 rounded-full transition-colors shadow-lg group-hover:shadow-xl group-hover:scale-105 transform">
+                                            <Link to={`/paquete/${pkg.id}`} className="bg-primary hover:bg-secondary text-white p-3 rounded-full transition-colors shadow-lg group-hover:shadow-xl group-hover:scale-105 transform inline-block">
                                                 <Search size={20} />
-                                            </button>
+                                            </Link>
                                         </div>
                                     </div>
                                 </motion.div>
@@ -275,6 +359,17 @@ const DestinosPage = () => {
                         <button onClick={clearFilters} className="mt-6 bg-secondary hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-full shadow-md transition-all">
                             Mostrar Todos los Destinos
                         </button>
+                    </div>
+                )}
+
+                {/* Empty State when there are no trips AT ALL in the DB */}
+                {!isLoading && allDestinations.length === 0 && (
+                    <div className="text-center py-20">
+                        <Plane size={64} className="mx-auto text-gray-200 mb-6 group-hover:-translate-y-2 transition-transform opacity-50" />
+                        <h2 className="text-3xl font-serif text-primary font-bold mb-4">Aún no hay destinos disponibles</h2>
+                        <p className="text-gray-500 max-w-lg mx-auto mb-8 font-sans">
+                            La agencia está preparando nuevos e increíbles paquetes para ti. ¡Vuelve pronto a revisar las novedades!
+                        </p>
                     </div>
                 )}
 

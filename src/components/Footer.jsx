@@ -95,9 +95,18 @@ const Footer = () => {
 
                 {/* Bottom Bar */}
                 <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
-                    <p className="font-sans text-white/50 text-xs text-center w-full">
+                    <p className="font-sans text-white/50 text-xs">
                         &copy; {new Date().getFullYear()} Stechi Tours Viajes y Turismo. Legajo N° 12345. Todos los derechos reservados.
                     </p>
+                    <a
+                        href="https://wa.me/5493541315119"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-sans text-white/50 text-xs hover:text-white transition-colors flex items-center gap-1 group"
+                    >
+                        Desarrollado por <span className="text-secondary font-semibold">Franco Zvilling</span>
+                        <span className="inline-block transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1">🚀</span>
+                    </a>
                 </div>
             </div>
         </footer>

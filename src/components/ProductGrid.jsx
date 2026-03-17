@@ -1,66 +1,34 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Plane, Hotel, Coffee, Map } from 'lucide-react';
+import { Plane, Hotel, Coffee, Map, Umbrella, Mountain, Camera, Calendar, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useTrips } from '../hooks/useTrips';
+import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
 
-const packages = [
-    {
-        id: 1,
-        title: 'Escapada a Bariloche',
-        image: 'https://images.unsplash.com/photo-1598162480222-b2c3d92548d5?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        tags: [{ icon: <Plane size={14} />, text: 'Vuelo' }, { icon: <Hotel size={14} />, text: 'Hotel' }],
-        price: '$45,000',
-        originalPrice: '$55,000',
-        description: 'Disfruta de la magia del sur argentino con estadía de 5 noches y aéreos incluidos.',
-    },
-    {
-        id: 2,
-        title: 'Playas de Buzios',
-        image: 'https://images.unsplash.com/photo-1576721804094-1dbcdb671711?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        tags: [{ icon: <Plane size={14} />, text: 'Vuelo' }, { icon: <Hotel size={14} />, text: 'Hotel' }, { icon: <Coffee size={14} />, text: 'Desayuno' }],
-        price: '$85,000',
-        originalPrice: '$100,000',
-        description: 'Relájate en las cálidas playas de Brasil. Paquete completo para 7 días.',
-    },
-    {
-        id: 3,
-        title: 'Aventura en Mendoza',
-        image: 'https://images.unsplash.com/photo-1546863340-7e4e97e46f42?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        tags: [{ icon: <Hotel size={14} />, text: 'Hotel' }, { icon: <Map size={14} />, text: 'Excursiones' }],
-        price: '$60,000',
-        originalPrice: null,
-        description: 'Explora la ruta del vino y los Andes con este paquete exclusivo de 4 noches.',
-    },
-    {
-        id: 4,
-        title: 'Tour por Europa Clásica',
-        image: 'https://images.unsplash.com/photo-1499856871958-5b9627545d1a?q=80&w=2020&auto=format&fit=crop',
-        tags: [{ icon: <Plane size={14} />, text: 'Vuelo' }, { icon: <Hotel size={14} />, text: 'Hotel' }, { icon: <Map size={14} />, text: 'Tour' }],
-        price: 'USD 1,200',
-        originalPrice: 'USD 1,500',
-        description: 'Madrid, París y Roma en 15 días inolvidables con guías en español.',
-    },
-    {
-        id: 5,
-        title: 'Caribe All Inclusive',
-        image: 'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?q=80&w=2070&auto=format&fit=crop',
-        tags: [{ icon: <Plane size={14} />, text: 'Vuelo' }, { icon: <Hotel size={14} />, text: 'Resort' }, { icon: <Coffee size={14} />, text: 'Todo Incluido' }],
-        price: 'USD 890',
-        originalPrice: null,
-        description: 'Punta Cana espectacular. Disfruta sin preocupaciones con todo pagado.',
-    },
-    {
-        id: 6,
-        title: 'Cataratas del Iguazú',
-        image: 'https://images.unsplash.com/photo-1538703012804-b74999aa11b9?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        tags: [{ icon: <Plane size={14} />, text: 'Vuelo' }, { icon: <Hotel size={14} />, text: 'Hotel' }],
-        price: '$50,000',
-        originalPrice: '$58,000',
-        description: 'Siente la fuerza de la naturaleza. Aéreos y alojamiento por 3 noches.',
-    }
-];
+const iconMap = {
+    Plane: <Plane size={14} />,
+    Hotel: <Hotel size={14} />,
+    Coffee: <Coffee size={14} />,
+    Map: <Map size={14} />,
+    Umbrella: <Umbrella size={14} />,
+    Mountain: <Mountain size={14} />,
+    Camera: <Camera size={14} />
+};
 
 const ProductGrid = () => {
+    const { trips, isLoading } = useTrips();
+    
+    // Get trips marked as Featured
+    const featuredPackages = trips.filter(trip => trip.isFeatured).slice(0, 6); // Max 6 para la grilla
+
+    const formatTripDates = (startIso, endIso) => {
+        if (!startIso || !endIso) return 'Fechas Flexibles';
+        const start = new Date(startIso);
+        const end = new Date(endIso);
+        return `${format(start, 'dd MMM', { locale: es })} - ${format(end, 'dd MMM', { locale: es })}`;
+    };
+
     return (
         <section id="destinos" className="py-24 bg-gray-50">
             <div className="container mx-auto px-6 md:px-12">
@@ -89,8 +57,20 @@ const ProductGrid = () => {
                     </motion.p>
                 </div>
 
+                {isLoading ? (
+                    <div className="py-20 text-center flex flex-col items-center">
+                         <div className="animate-spin rounded-full h-8 w-8 border-2 border-primary border-t-transparent mb-2"></div>
+                         <p className="text-gray-500">Cargando paquetes destacados...</p>
+                    </div>
+                ) : featuredPackages.length === 0 ? (
+                    <div className="py-20 text-center bg-white rounded-3xl shadow-sm border border-gray-100 max-w-3xl mx-auto">
+                        <Map size={48} className="mx-auto text-gray-300 mb-4" />
+                        <h3 className="text-2xl font-serif text-primary font-bold mb-2">Próximamente nuevas ofertas</h3>
+                        <p className="text-gray-500 font-sans">En este momento estamos preparando los mejores paquetes para ti.</p>
+                    </div>
+                ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                    {packages.map((pkg, index) => (
+                    {featuredPackages.map((pkg, index) => (
                         <motion.div
                             key={pkg.id}
                             initial={{ opacity: 0, y: 30 }}
@@ -113,40 +93,58 @@ const ProductGrid = () => {
 
                             <div className="p-6 flex flex-col flex-grow">
                                 {/* Tags */}
-                                <div className="flex flex-wrap gap-2 mb-4">
-                                    {pkg.tags.map((tag, i) => (
-                                        <span key={i} className="bg-blue-50 text-secondary text-xs font-semibold px-2.5 py-1 rounded-md flex items-center gap-1">
-                                            {tag.icon} {tag.text}
-                                        </span>
-                                    ))}
-                                </div>
+                                {pkg.tags && pkg.tags.length > 0 && (
+                                    <div className="flex flex-wrap gap-2 mb-4">
+                                        {pkg.tags.map((tag, i) => (
+                                            <span key={i} className="bg-blue-50 text-secondary text-xs font-semibold px-2.5 py-1 rounded-md flex items-center gap-1">
+                                                {iconMap[tag.icon] || <Plane size={14} />} {tag.text}
+                                            </span>
+                                        ))}
+                                    </div>
+                                )}
 
                                 <h3 className="text-xl font-bold font-serif text-primary mb-2 group-hover:text-secondary transition-colors">
                                     {pkg.title}
                                 </h3>
 
-                                <p className="text-gray-500 text-sm mb-6 flex-grow font-sans">
-                                    {pkg.description}
+                                <p className="text-gray-500 text-sm mb-4 flex-grow font-sans line-clamp-3">
+                                    {pkg.shortDescription || pkg.description}
                                 </p>
 
-                                <div className="flex items-end justify-between mt-auto">
-                                    <div>
-                                        <span className="text-xs text-gray-400 block font-semibold uppercase tracking-wider">Desde</span>
-                                        <div className="flex items-center gap-2">
-                                            <span className="text-2xl font-bold text-primary font-sans">{pkg.price}</span>
-                                            {pkg.originalPrice && (
-                                                <span className="text-sm text-gray-400 line-through font-medium">{pkg.originalPrice}</span>
-                                            )}
-                                        </div>
+                                <div className="flex flex-wrap items-center gap-3 text-primary font-sans text-xs font-semibold mb-6">
+                                    <div className="flex items-center gap-1.5 bg-gray-50 px-2 py-1.5 rounded-lg border border-gray-100">
+                                        <Calendar size={14} className="text-secondary" />
+                                        <span>{(pkg.startDate && pkg.endDate) ? formatTripDates(pkg.startDate, pkg.endDate) : (pkg.dates || 'Fechas Flexibles')}</span>
                                     </div>
-                                    <button className="bg-primary hover:bg-secondary text-white p-3 rounded-full transition-colors shadow-lg group-hover:shadow-xl group-hover:scale-105 transform">
+                                    {pkg.passengers && (
+                                        <div className="flex items-center gap-1.5 bg-gray-50 px-2 py-1.5 rounded-lg border border-gray-100">
+                                            <Users size={14} className="text-secondary" />
+                                            <span>{pkg.passengers}</span>
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div className="flex items-end justify-between mt-auto">
+                                            <div>
+                                                {pkg.price && !pkg.price.toLowerCase().includes('consultar') && (
+                                                    <span className="text-xs text-gray-400 block font-semibold uppercase tracking-wider">Desde</span>
+                                                )}
+                                                <div className="flex items-center gap-2">
+                                                    <span className={`font-bold text-primary font-sans ${pkg.price && pkg.price.toLowerCase().includes('consultar') ? 'text-lg max-w-[120px] leading-tight' : 'text-2xl'}`}>{pkg.price}</span>
+                                                    {pkg.originalPrice && (!pkg.price || !pkg.price.toLowerCase().includes('consultar')) && (
+                                                        <span className="text-sm text-gray-400 line-through font-medium">{pkg.originalPrice}</span>
+                                                    )}
+                                                </div>
+                                            </div>
+                                    <Link to={`/paquete/${pkg.id}`} className="bg-primary hover:bg-secondary text-white p-3 rounded-full transition-colors shadow-lg group-hover:shadow-xl group-hover:scale-105 transform inline-block">
                                         <Plane size={20} className="transform rotate-45" />
-                                    </button>
+                                    </Link>
                                 </div>
                             </div>
                         </motion.div>
                     ))}
                 </div>
+                )}
 
                 <div className="text-center mt-16">
                     <Link to="/destinos" className="inline-block border-2 border-primary text-primary hover:bg-primary hover:text-white font-sans font-bold py-3 px-10 rounded-full transition-all shadow-sm hover:shadow-md">

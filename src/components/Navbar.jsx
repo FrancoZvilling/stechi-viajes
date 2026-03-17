@@ -35,10 +35,9 @@ const Navbar = ({ onOpenModal }) => {
 
     const navLinks = [
         { name: 'Inicio', href: '/' },
-        { name: 'Nosotros', href: '/nosotros' },
         { name: 'Destinos', href: '/#destinos' },
-        { name: 'Promociones', href: '/#promociones' },
         { name: 'Eventos', href: '/#eventos' },
+        { name: 'Nosotros', href: '/nosotros' },
         { name: 'Contacto', href: '/#contacto' },
     ];
 
