@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { auth, db } from '../firebase';
+import { auth, db, storage } from '../firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
-import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
+import { collection, onSnapshot, query, orderBy, deleteDoc, doc } from 'firebase/firestore';
+import { ref, deleteObject } from 'firebase/storage';
 import { LogOut, Plus, MapPin, Edit, Trash2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -41,6 +42,24 @@ const AdminDashboard = () => {
             navigate('/admin');
         } catch (error) {
             console.error("Error signing out: ", error);
+        }
+    };
+
+    const handleDelete = async (tripId, imageUrl) => {
+        if (window.confirm("¿Estás súper seguro de que deseas eliminar este viaje? Esta acción borrará todos sus datos y no se puede deshacer.")) {
+            try {
+                // Borrar documento de Firestore
+                await deleteDoc(doc(db, 'trips', tripId));
+                
+                // Borrar imagen de Storage si existe
+                if (imageUrl && !imageUrl.includes('placeholder')) {
+                    const imageRef = ref(storage, imageUrl);
+                    await deleteObject(imageRef).catch(e => console.log('Error borrando imagen (puede que ya no exista):', e));
+                }
+            } catch (error) {
+                console.error("Error al borrar el viaje:", error);
+                alert("Hubo un error al intentar borrar el viaje. Revisa la consola.");
+            }
         }
     };
 
@@ -113,7 +132,7 @@ const AdminDashboard = () => {
                                         <Link to={`/admin/editar-viaje/${trip.id}`} className="flex-1 bg-gray-50 hover:bg-gray-100 text-primary font-bold text-sm py-2 rounded-lg flex justify-center items-center gap-2 transition-colors">
                                             <Edit size={16} /> Editar
                                         </Link>
-                                        <button className="flex-1 bg-red-50 hover:bg-red-500 text-red-600 hover:text-white font-bold text-sm py-2 rounded-lg flex justify-center items-center gap-2 transition-colors">
+                                        <button onClick={() => handleDelete(trip.id, trip.imageUrl)} className="flex-1 bg-red-50 hover:bg-red-500 text-red-600 hover:text-white font-bold text-sm py-2 rounded-lg flex justify-center items-center gap-2 transition-colors">
                                             <Trash2 size={16} /> Borrar
                                         </button>
                                     </div>

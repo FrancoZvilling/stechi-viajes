@@ -36,7 +36,19 @@ const HeroSection = () => {
             {/* Carousel Backgrounds & Text */}
             <div className="absolute inset-0 w-full h-full overflow-hidden rounded-b-[40px] shadow-xl">
                 <AnimatePresence mode="wait">
-                    {slides.length > 0 ? (
+                    {isLoading ? (
+                        <motion.div
+                            key="loader"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            className="absolute inset-0 bg-primary flex items-center justify-center flex-col text-white z-10"
+                        >
+                           <div className="w-16 h-16 border-4 border-white/20 border-t-secondary rounded-full animate-spin mb-6 shadow-lg"></div>
+                           <h2 className="font-serif text-2xl md:text-3xl font-bold tracking-wide animate-pulse">Cargando destinos destacados...</h2>
+                           <p className="font-sans text-sm text-white/60 mt-2">Preparando tu próxima aventura</p>
+                        </motion.div>
+                    ) : slides.length > 0 ? (
                         <motion.div
                             key={currentSlide}
                             initial={{ opacity: 0, scale: 1.05 }}
@@ -110,10 +122,15 @@ const HeroSection = () => {
                             </div>
                         </motion.div>
                     ) : (
-                        <div className="absolute inset-0 bg-primary flex items-center justify-center flex-col text-white/50 z-10">
+                        <motion.div 
+                            key="empty"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            className="absolute inset-0 bg-primary flex items-center justify-center flex-col text-white/50 z-10"
+                        >
                            <ImageIcon size={64} className="mb-4 opacity-50" />
                            <p className="font-sans text-xl font-medium tracking-wide">Agrega viajes marcados "En Hero" desde tu panel</p>
-                        </div>
+                        </motion.div>
                     )}
                 </AnimatePresence>
 
@@ -185,6 +202,7 @@ const HeroSection = () => {
                                     <option>2 Adultos, 0 Niños</option>
                                     <option>1 Adulto, 0 Niños</option>
                                     <option>2 Adultos, 2 Niños</option>
+                                    <option>Solo Adultos</option>
                                 </select>
                             </div>
                         </div>

@@ -3,6 +3,8 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { MapPin, Calendar, Users, ArrowLeft, Download, Check, Star, Info, FileText, File } from 'lucide-react';
 import { useTrips } from '../hooks/useTrips';
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import ItineraryPDF from '../components/ItineraryPDF';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 
@@ -146,43 +148,38 @@ const PackageDetails = () => {
                             <h3 className="text-2xl font-serif font-bold text-primary mb-2">Documentos del Viaje</h3>
                             <p className="text-gray-500 font-sans mb-6 text-sm">Descarga toda la información oficial para revisarla cómodamente.</p>
                             
-                            <div className="flex flex-col sm:flex-row gap-4">
-                                {/* Botón Dossier */}
-                                {(pkg.dossierUrl || pkg.dossierPdfUrl) ? (
-                                    <a href={pkg.dossierUrl || pkg.dossierPdfUrl} target="_blank" rel="noopener noreferrer" className="flex-1 bg-white border border-gray-200 hover:border-secondary hover:bg-blue-50/50 text-primary font-bold py-4 px-6 rounded-2xl transition-all shadow-sm hover:shadow-md flex items-center justify-center gap-3 group">
-                                        <div className="bg-blue-100 text-secondary p-2 rounded-xl group-hover:scale-110 transition-transform"><FileText size={20} /></div>
-                                        <div className="flex flex-col items-start leading-tight">
-                                            <span className="text-sm">Descargar Dossier</span>
-                                            <span className="text-[0.65rem] text-gray-400 font-normal">PDF Oficial</span>
-                                        </div>
-                                        <Download size={18} className="ml-auto text-gray-400 group-hover:text-secondary group-hover:translate-y-1 transition-all" />
-                                    </a>
-                                ) : (
-                                    <div className="flex-1 bg-gray-50 border border-gray-200 text-gray-400 font-bold py-4 px-6 rounded-2xl flex items-center justify-center gap-3 opacity-60 grayscale cursor-not-allowed">
-                                        <div className="bg-gray-200 text-gray-400 p-2 rounded-xl"><FileText size={20} /></div>
-                                        <div className="flex flex-col items-start leading-tight">
-                                            <span className="text-sm">Dossier no disponible</span>
-                                            <span className="text-[0.65rem] font-normal">Para este paquete</span>
-                                        </div>
-                                    </div>
-                                )}
+                            <div className="flex flex-col gap-4">
                                 
-                                {/* Botón Itinerario */}
-                                {(pkg.itineraryUrl || pkg.itineraryPdfUrl) ? (
-                                    <a href={pkg.itineraryUrl || pkg.itineraryPdfUrl} target="_blank" rel="noopener noreferrer" className="flex-1 bg-white border border-gray-200 hover:border-secondary hover:bg-blue-50/50 text-primary font-bold py-4 px-6 rounded-2xl transition-all shadow-sm hover:shadow-md flex items-center justify-center gap-3 group">
-                                        <div className="bg-blue-100 text-secondary p-2 rounded-xl group-hover:scale-110 transition-transform"><MapPin size={20} /></div>
-                                        <div className="flex flex-col items-start leading-tight">
-                                            <span className="text-sm">Itinerario de Viaje</span>
-                                            <span className="text-[0.65rem] text-gray-400 font-normal">PDF Día por Día</span>
-                                        </div>
-                                        <Download size={18} className="ml-auto text-gray-400 group-hover:text-secondary group-hover:translate-y-1 transition-all" />
-                                    </a>
+                                {/* Botón Itinerario Dinámico */}
+                                {pkg.itineraryText ? (
+                                    <PDFDownloadLink
+                                        document={<ItineraryPDF pkg={pkg} />}
+                                        fileName={`Itinerario_${pkg.title.replace(/\s+/g, '_')}.pdf`}
+                                        className="w-full bg-white border border-gray-200 hover:border-secondary hover:bg-blue-50/50 text-primary font-bold py-4 px-6 rounded-2xl transition-all shadow-sm hover:shadow-md flex items-center justify-center gap-3 group"
+                                    >
+                                        {({ blob, url, loading, error }) => (
+                                            <>
+                                                <div className="bg-blue-100 text-secondary p-2 rounded-xl group-hover:scale-110 transition-transform">
+                                                    {loading ? <div className="animate-spin rounded-full h-5 w-5 border-2 border-secondary border-t-transparent"></div> : <MapPin size={20} />}
+                                                </div>
+                                                <div className="flex flex-col items-start leading-tight">
+                                                    <span className="text-sm">
+                                                        {loading ? 'Generando Itinerario...' : 'Descargar Itinerario Oficial'}
+                                                    </span>
+                                                    <span className="text-[0.65rem] text-gray-400 font-normal">
+                                                        {loading ? 'Preparando diseño' : 'PDF Dinámico'}
+                                                    </span>
+                                                </div>
+                                                <Download size={18} className="ml-auto text-gray-400 group-hover:text-secondary group-hover:translate-y-1 transition-all" />
+                                            </>
+                                        )}
+                                    </PDFDownloadLink>
                                 ) : (
-                                    <div className="flex-1 bg-gray-50 border border-gray-200 text-gray-400 font-bold py-4 px-6 rounded-2xl flex items-center justify-center gap-3 opacity-60 grayscale cursor-not-allowed">
+                                    <div className="w-full bg-gray-50 border border-gray-200 text-gray-400 font-bold py-4 px-6 rounded-2xl flex items-center gap-3 opacity-60 grayscale cursor-not-allowed">
                                         <div className="bg-gray-200 text-gray-400 p-2 rounded-xl"><MapPin size={20} /></div>
                                         <div className="flex flex-col items-start leading-tight">
-                                            <span className="text-sm">Itinerario no disponible</span>
-                                            <span className="text-[0.65rem] font-normal">Para este paquete</span>
+                                            <span className="text-sm">Itinerario en preparación</span>
+                                            <span className="text-[0.65rem] font-normal">Próximamente disponible</span>
                                         </div>
                                     </div>
                                 )}

@@ -8,6 +8,7 @@ import { ArrowLeft, UploadCloud, Save, Loader2, Image as ImageIcon, FileText } f
 import { motion } from 'framer-motion';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { useTrips } from '../hooks/useTrips';
 
 // Icon library for tags
 import * as LucideIcons from 'lucide-react';
@@ -23,6 +24,7 @@ const availableIcons = [
     { name: 'Bus', label: 'Traslado' },
     { name: 'Ship', label: 'Crucero' },
     { name: 'Utensils', label: 'Comida' },
+    { name: 'Users', label: 'Salidas Grupales' }
 ];
 
 const AdminTripForm = () => {
@@ -42,6 +44,7 @@ const AdminTripForm = () => {
         continent: '',
         country: '',
         type: '',
+        categoryImageUrl: '',
         price: '',
         originalPrice: '',
         consultPrice: false,
@@ -52,18 +55,45 @@ const AdminTripForm = () => {
         isFeatured: false,
         isHero: false,
         tags: [], // { iconName: '', text: '' }
-        includes: ['Vuelos ida y vuelta', 'Alojamiento con desayuno', 'Asistencia 24/7 en destino']
+        includes: ['Vuelos ida y vuelta', 'Alojamiento con desayuno', 'Asistencia 24/7 en destino'],
+        itineraryText: ''
     });
 
     // File States
     const [imageFile, setImageFile] = useState(null);
     const [imagePreview, setImagePreview] = useState('');
-    const [dossierFile, setDossierFile] = useState(null);
-    const [itineraryFile, setItineraryFile] = useState(null);
+    const [categoryFile, setCategoryFile] = useState(null);
+    const [categoryPreview, setCategoryPreview] = useState('');
 
     // Current Tag State
     const [currentTagIcon, setCurrentTagIcon] = useState('Plane');
     const [currentTagText, setCurrentTagText] = useState('');
+
+    // Combobox Lists
+    const { trips } = useTrips();
+    const [uniqueContinents, setUniqueContinents] = useState([]);
+    const [uniqueCountries, setUniqueCountries] = useState([]);
+    const [uniqueTypes, setUniqueTypes] = useState([]);
+
+    useEffect(() => {
+        if (trips && trips.length > 0) {
+            const continents = [...new Set(trips.map(t => t.continent).filter(Boolean))];
+            const countries = [...new Set(trips.map(t => t.country).filter(Boolean))];
+            
+            const typesMap = {};
+            trips.forEach(t => {
+                if (t.type && !typesMap[t.type] && t.categoryImageUrl) {
+                    typesMap[t.type] = t.categoryImageUrl;
+                } else if (t.type && !typesMap[t.type]) {
+                    typesMap[t.type] = '';
+                }
+            });
+            
+            setUniqueContinents(continents);
+            setUniqueCountries(countries);
+            setUniqueTypes(Object.keys(typesMap).map(k => ({ name: k, image: typesMap[k] })));
+        }
+    }, [trips]);
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -89,6 +119,7 @@ const AdminTripForm = () => {
                             continent: data.continent || '',
                             country: data.country || '',
                             type: data.type || '',
+                            categoryImageUrl: data.categoryImageUrl || '',
                             price: data.price || '',
                             originalPrice: data.originalPrice || '',
                             consultPrice: data.consultPrice || false,
@@ -100,12 +131,14 @@ const AdminTripForm = () => {
                             isHero: data.isHero || false,
                             tags: data.tags || [],
                             includes: data.includes && data.includes.length > 0 ? data.includes : ['Vuelos ida y vuelta', 'Alojamiento con desayuno', 'Asistencia 24/7 en destino'],
-                            imageUrl: data.imageUrl || '',
-                            dossierUrl: data.dossierUrl || '',
-                            itineraryUrl: data.itineraryUrl || ''
+                            itineraryText: data.itineraryText || '',
+                            imageUrl: data.imageUrl || ''
                         });
                         if (data.imageUrl) {
                             setImagePreview(data.imageUrl);
+                        }
+                        if (data.categoryImageUrl) {
+                            setCategoryPreview(data.categoryImageUrl);
                         }
                     } else {
                         alert("El viaje no existe.");
@@ -127,6 +160,20 @@ const AdminTripForm = () => {
             ...prev,
             [name]: type === 'checkbox' ? checked : value
         }));
+    };
+
+    const handleTypeChange = (e) => {
+        const val = e.target.value;
+        setFormData(prev => ({ ...prev, type: val }));
+        
+        const existingType = uniqueTypes.find(t => t.name.toLowerCase() === val.toLowerCase());
+        if (existingType && existingType.image) {
+            setFormData(prev => ({ ...prev, categoryImageUrl: existingType.image }));
+            setCategoryPreview(existingType.image);
+        } else if (!isEditing || (isEditing && formData.type !== val)) {
+            setFormData(prev => ({ ...prev, categoryImageUrl: '' }));
+            setCategoryPreview('');
+        }
     };
 
     const handleImageChange = (e) => {
@@ -183,8 +230,7 @@ const AdminTripForm = () => {
         
         try {
             let imageUrl = formData.imageUrl || '';
-            let dossierUrl = formData.dossierUrl || '';
-            let itineraryUrl = formData.itineraryUrl || '';
+            let categoryImageUrl = formData.categoryImageUrl || '';
 
             // Upload Image
             if (imageFile) {
@@ -193,16 +239,11 @@ const AdminTripForm = () => {
                 imageUrl = await getDownloadURL(imageRef);
             }
 
-            // Upload PDFs
-            if (dossierFile) {
-                const dossierRef = ref(storage, `trips/docs/dossier_${Date.now()}_${dossierFile.name}`);
-                await uploadBytes(dossierRef, dossierFile);
-                dossierUrl = await getDownloadURL(dossierRef);
-            }
-            if (itineraryFile) {
-                const itineraryRef = ref(storage, `trips/docs/itinerary_${Date.now()}_${itineraryFile.name}`);
-                await uploadBytes(itineraryRef, itineraryFile);
-                itineraryUrl = await getDownloadURL(itineraryRef);
+            // Upload Category Image
+            if (categoryFile) {
+                const catRef = ref(storage, `trips/categories/${Date.now()}_${categoryFile.name}`);
+                await uploadBytes(catRef, categoryFile);
+                categoryImageUrl = await getDownloadURL(catRef);
             }
 
             const tripData = {
@@ -211,8 +252,7 @@ const AdminTripForm = () => {
                 startDate: formData.startDate ? formData.startDate.toISOString() : null,
                 endDate: formData.endDate ? formData.endDate.toISOString() : null,
                 imageUrl,
-                dossierUrl,
-                itineraryUrl,
+                categoryImageUrl,
                 updatedAt: serverTimestamp()
             };
 
@@ -339,15 +379,24 @@ const AdminTripForm = () => {
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
                                 <div>
                                     <label className="text-[0.7rem] font-bold text-gray-500 uppercase tracking-wider block mb-2">Continente *</label>
-                                    <input required type="text" name="continent" value={formData.continent} onChange={handleChange} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-primary" placeholder="Ej: Europa" />
+                                    <input required list="continents-list" type="text" name="continent" value={formData.continent} onChange={handleChange} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-primary" placeholder="Ej: Europa" />
+                                    <datalist id="continents-list">
+                                        {uniqueContinents.map(c => <option key={c} value={c} />)}
+                                    </datalist>
                                 </div>
                                 <div>
                                     <label className="text-[0.7rem] font-bold text-gray-500 uppercase tracking-wider block mb-2">País *</label>
-                                    <input required type="text" name="country" value={formData.country} onChange={handleChange} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-primary" placeholder="Ej: España" />
+                                    <input required list="countries-list" type="text" name="country" value={formData.country} onChange={handleChange} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-primary" placeholder="Ej: España" />
+                                    <datalist id="countries-list">
+                                        {uniqueCountries.map(c => <option key={c} value={c} />)}
+                                    </datalist>
                                 </div>
                                 <div>
                                     <label className="text-[0.7rem] font-bold text-gray-500 uppercase tracking-wider block mb-2">Tipo de Viaje *</label>
-                                    <input required type="text" name="type" value={formData.type} onChange={handleChange} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-primary" placeholder="Ej: Playa" />
+                                    <input required list="types-list" type="text" name="type" value={formData.type} onChange={handleTypeChange} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-primary" placeholder="Ej: Playas y Sol" />
+                                    <datalist id="types-list">
+                                        {uniqueTypes.map(t => <option key={t.name} value={t.name} />)}
+                                    </datalist>
                                 </div>
                             </div>
                             
@@ -396,6 +445,7 @@ const AdminTripForm = () => {
                                         <option value="2 Adultos, 1 Niño">2 Adultos, 1 Niño</option>
                                         <option value="2 Adultos, 2 Niños">2 Adultos, 2 Niños</option>
                                         <option value="Familia Numerosa">Familia Numerosa</option>
+                                        <option value="Solo Adultos">Solo Adultos</option>
                                     </select>
                                 </div>
                             </div>
@@ -405,22 +455,34 @@ const AdminTripForm = () => {
                         <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
                             <h3 className="text-xl font-serif font-bold text-primary mb-6 border-b pb-4">Etiquetas Visuales</h3>
                             
+                            <div className="mb-4 bg-gray-50 border border-gray-200 p-3 rounded-xl flex flex-wrap gap-2 items-center">
+                                <span className="text-xs font-bold text-gray-400 uppercase mr-2 block w-full mb-1">Elige un icono:</span>
+                                {availableIcons.map(icon => {
+                                    const IconComp = LucideIcons[icon.name];
+                                    return (
+                                        <button
+                                            key={icon.name}
+                                            type="button"
+                                            title={icon.label}
+                                            onClick={() => setCurrentTagIcon(icon.name)}
+                                            className={`p-2 rounded-lg transition-all flex items-center justify-center ${currentTagIcon === icon.name ? 'bg-secondary text-white shadow-md scale-110' : 'text-gray-400 hover:bg-white hover:text-primary hover:shadow-sm'}`}
+                                        >
+                                            <IconComp size={20} />
+                                        </button>
+                                    );
+                                })}
+                            </div>
+
                             <div className="flex gap-4 mb-6">
-                                <select 
-                                    value={currentTagIcon} 
-                                    onChange={(e) => setCurrentTagIcon(e.target.value)}
-                                    className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-primary"
-                                >
-                                    {availableIcons.map(icon => (
-                                        <option key={icon.name} value={icon.name}>{icon.label}</option>
-                                    ))}
-                                </select>
+                                <div className="flex items-center justify-center bg-gray-50 border border-gray-200 w-12 rounded-xl text-secondary">
+                                    {React.createElement(LucideIcons[currentTagIcon] || LucideIcons.Plane, { size: 24 })}
+                                </div>
                                 <input 
                                     type="text" 
                                     value={currentTagText} 
                                     onChange={(e) => setCurrentTagText(e.target.value)} 
                                     className="flex-1 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-primary focus:outline-none focus:border-secondary" 
-                                    placeholder="Texto etiqueta (Ej: Vuelo Directo)"
+                                    placeholder="Texto etiqueta (Ej: Vuelo Directo, Salida Grupal)"
                                     onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
                                 />
                                 <button type="button" onClick={addTag} className="bg-primary hover:bg-secondary text-white font-bold px-6 rounded-xl transition-colors">Añadir</button>
@@ -491,29 +553,45 @@ const AdminTripForm = () => {
                             </div>
                         </div>
 
-                        {/* PDF Uploads */}
+                        {/* Category Image Upload */}
                         <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
-                            <h3 className="text-xl font-serif font-bold text-primary mb-6 border-b pb-4">Documentos PDF</h3>
-                            
-                            <div className="space-y-4">
-                                <div>
-                                    <label className="text-[0.7rem] font-bold text-gray-500 uppercase tracking-wider block mb-2">Dossier / Información</label>
-                                    <div className="relative flex items-center p-3 border border-gray-200 rounded-xl bg-gray-50 overflow-hidden">
-                                        <input type="file" accept=".pdf" onChange={(e) => setDossierFile(e.target.files[0])} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
-                                        <FileText size={18} className="text-gray-400 mr-2 shrink-0" />
-                                        <span className="text-sm text-gray-600 truncate">{dossierFile ? dossierFile.name : 'Subir archivo PDF...'}</span>
-                                    </div>
-                                </div>
+                            <h3 className="text-xl font-serif font-bold text-primary mb-6 border-b pb-4">Foto de Categoría (Tipo de Viaje)</h3>
+                            <p className="text-xs text-gray-400 mb-4">Se usará en la sección "Descubre por Categoría". Si elegiste un Tipo existente, esta foto ya se auto-completó.</p>
+
+                            <div className="relative border-2 border-dashed border-gray-300 rounded-2xl overflow-hidden hover:border-secondary hover:bg-blue-50 transition-all group">
+                                <input type="file" accept="image/*" onChange={(e) => {
+                                    if(e.target.files[0]) {
+                                        setCategoryFile(e.target.files[0]);
+                                        setCategoryPreview(URL.createObjectURL(e.target.files[0]));
+                                    }
+                                }} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
                                 
-                                <div>
-                                    <label className="text-[0.7rem] font-bold text-gray-500 uppercase tracking-wider block mb-2">Itinerario Día a Día</label>
-                                    <div className="relative flex items-center p-3 border border-gray-200 rounded-xl bg-gray-50 overflow-hidden">
-                                        <input type="file" accept=".pdf" onChange={(e) => setItineraryFile(e.target.files[0])} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
-                                        <FileText size={18} className="text-gray-400 mr-2 shrink-0" />
-                                        <span className="text-sm text-gray-600 truncate">{itineraryFile ? itineraryFile.name : 'Subir archivo PDF...'}</span>
+                                {categoryPreview ? (
+                                    <img src={categoryPreview} alt="Preview Categoría" className="w-full h-32 object-cover" />
+                                ) : (
+                                    <div className="h-32 flex flex-col items-center justify-center text-gray-400 group-hover:text-secondary group-hover:scale-105 transition-all">
+                                        <ImageIcon size={32} className="mb-2" />
+                                        <span className="font-bold font-sans text-xs flex text-center max-w-[80%] mx-auto mt-2">Clic para subir foto única para la categoría</span>
                                     </div>
-                                </div>
+                                )}
                             </div>
+                        </div>
+
+                        {/* Dynamic Itinerary Editor */}
+                        <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
+                            <h3 className="text-xl font-serif font-bold text-primary mb-6 border-b pb-4">Itinerario Dinámico a PDF</h3>
+                            <p className="text-xs text-gray-400 mb-4">Escribe el día a día aquí. Nuestro sistema lo transformará automáticamente en un elegante PDF corporativo cuando el cliente pulse Descargar Itinerario.</p>
+                            
+                            <textarea 
+                                name="itineraryText" 
+                                value={formData.itineraryText} 
+                                onChange={handleChange} 
+                                rows="15" 
+                                className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-primary font-sans focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary whitespace-pre-line" 
+                                placeholder="Día 1: Vuelo internacional a destino...
+Día 2: Desayuno buffet y city tour...
+Día 3: Día libre para conocer la ciudad..." 
+                            />
                         </div>
 
                     </div>

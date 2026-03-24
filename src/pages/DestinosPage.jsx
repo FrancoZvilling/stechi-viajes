@@ -251,6 +251,7 @@ const DestinosPage = () => {
                                     <option value="2 Adultos, 1 Niño">2 Adultos, 1 Niño</option>
                                     <option value="2 Adultos, 2 Niños">2 Adultos, 2 Niños</option>
                                     <option value="Familia Numerosa">Familia Numerosa</option>
+                                    <option value="Solo Adultos">Solo Adultos</option>
                                 </select>
                             </div>
                         </div>
