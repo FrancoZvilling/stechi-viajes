@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Facebook, Instagram, Twitter, Linkedin, Heart } from 'lucide-react';
+import { Facebook, Instagram, Heart } from 'lucide-react';
 import logoImg from '../assets/logo-navbar.jpg';
 
 const Footer = () => {
@@ -32,12 +32,6 @@ const Footer = () => {
                             </a>
                             <a href="#" className="bg-white/10 hover:bg-secondary p-2 rounded-full transition-colors">
                                 <Instagram size={20} />
-                            </a>
-                            <a href="#" className="bg-white/10 hover:bg-secondary p-2 rounded-full transition-colors">
-                                <Twitter size={20} />
-                            </a>
-                            <a href="#" className="bg-white/10 hover:bg-secondary p-2 rounded-full transition-colors">
-                                <Linkedin size={20} />
                             </a>
                         </div>
                     </div>

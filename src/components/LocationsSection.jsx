@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { MapPin, Phone, Mail, Clock, Facebook, Instagram, Twitter, MessageCircle } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, Facebook, Instagram, MessageCircle } from 'lucide-react';
 
 const contactInfo = {
     address: 'Cordoba 1147 - Piso 14 Of 2\nGaleria la Favorita - Rosario Santa Fe',
@@ -110,9 +110,6 @@ const LocationsSection = () => {
                                 </a>
                                 <a href="#" className="bg-primary/5 hover:bg-primary text-primary hover:text-white p-3 rounded-full transition-all shadow-sm">
                                     <Instagram size={22} />
-                                </a>
-                                <a href="#" className="bg-primary/5 hover:bg-primary text-primary hover:text-white p-3 rounded-full transition-all shadow-sm">
-                                    <Twitter size={22} />
                                 </a>
                             </div>
                         </div>
