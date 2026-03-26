@@ -1,7 +1,7 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, MapPin, Calendar, Users, Filter, Plane, X, Hotel, Coffee, Map, Umbrella, Mountain, Camera, Sun, Snowflake, Bus, Ship, Utensils } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { format } from 'date-fns';
@@ -26,6 +26,7 @@ const iconMap = {
 };
 
 const DestinosPage = () => {
+    const [searchParams, setSearchParams] = useSearchParams();
     const { trips: allDestinations, isLoading } = useTrips();
 
     // State for filters
@@ -35,6 +36,24 @@ const DestinosPage = () => {
     const [selectedPassengers, setSelectedPassengers] = useState('');
     const [dateRange, setDateRange] = useState([null, null]);
     const [filterStartDate, filterEndDate] = dateRange;
+
+    // Sync URL params to State
+    useEffect(() => {
+        const countryParam = searchParams.get('country');
+        const startParam = searchParams.get('start');
+        const endParam = searchParams.get('end');
+        const passengersParam = searchParams.get('passengers');
+
+        if (countryParam) setSelectedCountry(countryParam);
+        if (passengersParam) setSelectedPassengers(passengersParam);
+        
+        if (startParam || endParam) {
+            setDateRange([
+                startParam ? new Date(startParam) : null,
+                endParam ? new Date(endParam) : null
+            ]);
+        }
+    }, [searchParams]);
 
     // Extract dynamic filter options
     const continents = useMemo(() => ['Todos', ...new Set(allDestinations.map(d => d.continent))], [allDestinations]);
@@ -90,6 +109,7 @@ const DestinosPage = () => {
         setSelectedType('Todos');
         setSelectedPassengers('Cualquiera');
         setDateRange([null, null]);
+        setSearchParams({}); // Clear URL params too
     };
 
     const activeFiltersCount = [
