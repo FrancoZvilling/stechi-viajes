@@ -1,12 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { MapPin, Calendar, Users, ArrowLeft, Download, Check, Star, Info, FileText, File } from 'lucide-react';
+import { MapPin, Calendar, Users, ArrowLeft, Download, Check, Star, Info, FileText, File, Plane, Hotel, Coffee, Map, Umbrella, Mountain, Camera, Sun, Snowflake, Bus, Ship, Utensils } from 'lucide-react';
 import { useTrips } from '../hooks/useTrips';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import ItineraryPDF from '../components/ItineraryPDF';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
+
+const iconMap = {
+    Plane: <Plane size={14} />,
+    Hotel: <Hotel size={14} />,
+    Coffee: <Coffee size={14} />,
+    Map: <Map size={14} />,
+    Umbrella: <Umbrella size={14} />,
+    Mountain: <Mountain size={14} />,
+    Camera: <Camera size={14} />,
+    Sun: <Sun size={14} />,
+    Snowflake: <Snowflake size={14} />,
+    Bus: <Bus size={14} />,
+    Ship: <Ship size={14} />,
+    Utensils: <Utensils size={14} />,
+    Users: <Users size={14} />
+};
 
 const PackageDetails = () => {
     const { id } = useParams();
@@ -90,9 +106,20 @@ const PackageDetails = () => {
                             <span className="bg-secondary text-white font-bold text-xs px-3 py-1 rounded-full shadow-md uppercase tracking-wide">{pkg.country}</span>
                             <span className="bg-white text-primary font-bold text-xs px-3 py-1 rounded-full shadow-md uppercase tracking-wide">{pkg.type}</span>
                         </motion.div>
-                        <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-primary drop-shadow-[0_2px_4px_rgba(255,255,255,0.8)] leading-tight">
+                        <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-primary drop-shadow-[0_2px_4px_rgba(255,255,255,0.8)] leading-tight mb-4">
                             {pkg.title}
                         </motion.h1>
+
+                        {/* Visual Tags */}
+                        {pkg.tags && pkg.tags.length > 0 && (
+                            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="flex flex-wrap gap-2">
+                                {pkg.tags.map((tag, i) => (
+                                    <span key={i} className="bg-white/90 backdrop-blur-sm text-secondary text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-2 shadow-sm border border-white">
+                                        {iconMap[tag.iconName] || <Plane size={14} />} {tag.text}
+                                    </span>
+                                ))}
+                            </motion.div>
+                        )}
                     </div>
                 </div>
             </div>

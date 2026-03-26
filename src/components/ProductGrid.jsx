@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Plane, Hotel, Coffee, Map, Umbrella, Mountain, Camera, Calendar, Users } from 'lucide-react';
+import { Plane, Hotel, Coffee, Map, Umbrella, Mountain, Camera, Calendar, Users, Sun, Snowflake, Bus, Ship, Utensils } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTrips } from '../hooks/useTrips';
 import { format } from 'date-fns';
@@ -13,7 +13,13 @@ const iconMap = {
     Map: <Map size={14} />,
     Umbrella: <Umbrella size={14} />,
     Mountain: <Mountain size={14} />,
-    Camera: <Camera size={14} />
+    Camera: <Camera size={14} />,
+    Sun: <Sun size={14} />,
+    Snowflake: <Snowflake size={14} />,
+    Bus: <Bus size={14} />,
+    Ship: <Ship size={14} />,
+    Utensils: <Utensils size={14} />,
+    Users: <Users size={14} />
 };
 
 const ProductGrid = () => {
@@ -97,7 +103,7 @@ const ProductGrid = () => {
                                     <div className="flex flex-wrap gap-2 mb-4">
                                         {pkg.tags.map((tag, i) => (
                                             <span key={i} className="bg-blue-50 text-secondary text-xs font-semibold px-2.5 py-1 rounded-md flex items-center gap-1">
-                                                {iconMap[tag.icon] || <Plane size={14} />} {tag.text}
+                                                {iconMap[tag.iconName] || <Plane size={14} />} {tag.text}
                                             </span>
                                         ))}
                                     </div>

@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, MapPin, Calendar, Users, Filter, Plane, X, Hotel, Coffee, Map, Umbrella, Mountain, Camera } from 'lucide-react';
+import { Search, MapPin, Calendar, Users, Filter, Plane, X, Hotel, Coffee, Map, Umbrella, Mountain, Camera, Sun, Snowflake, Bus, Ship, Utensils } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -16,7 +16,13 @@ const iconMap = {
     Map: <Map size={14} />,
     Umbrella: <Umbrella size={14} />,
     Mountain: <Mountain size={14} />,
-    Camera: <Camera size={14} />
+    Camera: <Camera size={14} />,
+    Sun: <Sun size={14} />,
+    Snowflake: <Snowflake size={14} />,
+    Bus: <Bus size={14} />,
+    Ship: <Ship size={14} />,
+    Utensils: <Utensils size={14} />,
+    Users: <Users size={14} />
 };
 
 const DestinosPage = () => {
@@ -312,7 +318,7 @@ const DestinosPage = () => {
                                             <div className="flex flex-wrap gap-2 mb-4">
                                                 {pkg.tags.map((tag, i) => (
                                                     <span key={i} className="bg-blue-50 text-secondary text-xs font-semibold px-2.5 py-1 rounded-md flex items-center gap-1">
-                                                        {iconMap[tag.icon] || <Plane size={14} />} {tag.text}
+                                                        {iconMap[tag.iconName] || <Plane size={14} />} {tag.text}
                                                     </span>
                                                 ))}
                                             </div>

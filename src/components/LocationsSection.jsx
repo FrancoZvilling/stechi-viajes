@@ -5,10 +5,10 @@ import { MapPin, Phone, Mail, Clock, Facebook, Instagram, Twitter, MessageCircle
 const contactInfo = {
     address: 'Cordoba 1147 - Piso 14 Of 2\nGaleria la Favorita - Rosario Santa Fe',
     phone: '+54 9 3412 517677',
-    email: 'contacto@stechitours.com',
+    email: 'contacto@stechitours.com.ar',
     hours: 'Lun a Vie: 9 a 18:00 hs - con Cita previa',
     whatsapp: '+54 9 3412 517677',
-    mapUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3283.9936886915243!2d-58.38450168477026!3d-34.603738865008535!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccac813f28205%3A0xc47b9ee3f0407a56!2sObelisco!5e0!3m2!1ses-419!2sar!4v1655385621482!5m2!1ses-419!2sar'
+    mapUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3348.175780496905!2d-60.638912399999995!3d-32.946368199999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95b7ab19c6c8deab%3A0x778dd27ead04c7c5!2sGaler%C3%ADa%20la%20Favorita%2C%20C%C3%B3rdoba%201147%2C%20S2000AWO%20Rosario%2C%20Santa%20Fe!5e0!3m2!1ses-419!2sar!4v1774554326030!5m2!1ses-419!2sar'
 };
 
 const LocationsSection = () => {
