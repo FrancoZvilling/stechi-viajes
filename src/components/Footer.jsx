@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Facebook, Instagram, Twitter, Linkedin, Heart } from 'lucide-react';
 import logoImg from '../assets/logo-navbar.jpg';
 
@@ -48,11 +49,11 @@ const Footer = () => {
                             <span className="absolute -bottom-2 left-0 w-1/2 h-1 bg-secondary rounded-full"></span>
                         </h4>
                         <ul className="space-y-3 font-sans text-white/80">
-                            <li><a href="#" className="hover:text-secondary hover:translate-x-1 inline-block transition-all">Inicio</a></li>
-                            <li><a href="#destinos" className="hover:text-secondary hover:translate-x-1 inline-block transition-all">Destinos Destacados</a></li>
-                            <li><a href="#promociones" className="hover:text-secondary hover:translate-x-1 inline-block transition-all">Promociones</a></li>
-                            <li><a href="#eventos" className="hover:text-secondary hover:translate-x-1 inline-block transition-all">Eventos Globales</a></li>
-                            <li><a href="#contacto" className="hover:text-secondary hover:translate-x-1 inline-block transition-all">Contacto</a></li>
+                            <li><Link to="/" className="hover:text-secondary hover:translate-x-1 inline-block transition-all">Inicio</Link></li>
+                            <li><Link to="/#destinos" className="hover:text-secondary hover:translate-x-1 inline-block transition-all">Destinos Destacados</Link></li>
+                            <li><Link to="/#partners" className="hover:text-secondary hover:translate-x-1 inline-block transition-all">Nuestros Partners</Link></li>
+                            <li><Link to="/#eventos" className="hover:text-secondary hover:translate-x-1 inline-block transition-all">Experiencias y Eventos Globales</Link></li>
+                            <li><Link to="/#contacto" className="hover:text-secondary hover:translate-x-1 inline-block transition-all">Contacto</Link></li>
                         </ul>
                     </div>
 
@@ -63,11 +64,9 @@ const Footer = () => {
                             <span className="absolute -bottom-2 left-0 w-1/2 h-1 bg-secondary rounded-full"></span>
                         </h4>
                         <ul className="space-y-3 font-sans text-white/80">
-                            <li><a href="#" className="hover:text-secondary inline-block transition-colors">Asistencia al Viajero</a></li>
-                            <li><a href="#" className="hover:text-secondary inline-block transition-colors">Medios de Pago</a></li>
-                            <li><a href="#" className="hover:text-secondary inline-block transition-colors">Preguntas Frecuentes</a></li>
-                            <li><a href="#" className="hover:text-secondary inline-block transition-colors">Términos y Condiciones</a></li>
-                            <li><a href="#" className="hover:text-secondary inline-block transition-colors">Políticas de Privacidad</a></li>
+                            <li><Link to="/faq" className="hover:text-secondary inline-block transition-colors">Preguntas Frecuentes</Link></li>
+                            <li><Link to="/terminos" className="hover:text-secondary inline-block transition-colors">Términos y Condiciones</Link></li>
+                            <li><Link to="/privacidad" className="hover:text-secondary inline-block transition-colors">Políticas de Privacidad</Link></li>
                         </ul>
                     </div>
 
@@ -96,7 +95,7 @@ const Footer = () => {
                 {/* Bottom Bar */}
                 <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
                     <p className="font-sans text-white/50 text-xs">
-                        &copy; {new Date().getFullYear()} Stechi Tours Viajes y Turismo. Legajo N° 12345. Todos los derechos reservados.
+                        &copy; {new Date().getFullYear()} Stechi Tours Viajes y Turismo. Legajo: 18672. Todos los derechos reservados.
                     </p>
                     <a
                         href="https://wa.me/5493541315119"

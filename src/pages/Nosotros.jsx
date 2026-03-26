@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Users, Globe, Award, Sparkles } from 'lucide-react';
+import { Users, Globe, Award, Sparkles, Target, Eye, Heart } from 'lucide-react';
 
 const Nosotros = () => {
     return (
@@ -48,7 +48,7 @@ const Nosotros = () => {
                         transition={{ duration: 0.8, delay: 0.4 }}
                         className="text-xl text-gray-600 font-sans max-w-3xl mx-auto leading-relaxed"
                     >
-                        Más que una agencia de viajes, somos diseñadores de experiencias. Transformamos tus sueños en itinerarios perfectos para que solo te preocupes por disfrutar.
+                        Transformamos tu ilusión de viajar en rutas diseñadas a tu medida. Nos encargamos de toda la logística para que tu única preocupación sea crear recuerdos memorables.
                     </motion.p>
                 </div>
 
@@ -72,23 +72,36 @@ const Nosotros = () => {
                         initial={{ opacity: 0, x: 50 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.8, delay: 0.8 }}
-                        className="lg:w-1/2 space-y-8"
+                        className="lg:w-1/2 space-y-6"
                     >
-                        <div className="bg-white/70 backdrop-blur-xl p-8 rounded-3xl shadow-lg border border-white">
-                            <h3 className="text-2xl font-serif font-bold text-primary mb-4 flex items-center gap-3">
-                                <Sparkles className="text-secondary" /> ¿Quiénes Somos?
+                        <div className="bg-white/70 backdrop-blur-xl p-6 rounded-3xl shadow-lg border border-white">
+                            <h3 className="text-xl font-serif font-bold text-primary mb-3 flex items-center gap-3">
+                                <Heart className="text-secondary" size={24} /> ¿Quiénes Somos?
                             </h3>
-                            <p className="text-gray-600 font-sans leading-relaxed">
-                                Nacimos con la pasión de explorar el mundo y la vocación de compartirlo. En Stechi Tours estamos formados por viajeros expertos que recorren el globo buscando los mejores destinos y alojamientos, garantizando que cada ruta propuesta tiene el sello de calidad que tú mereces.
+                            <p className="text-gray-600 font-sans leading-relaxed text-sm whitespace-pre-line">
+                                Somos una agencia de viajes dedicada a crear experiencias pensadas para cada persona y cada familia, cuidando cada detalle de la planificación para que solo tengas que disfrutar.{"\n"}
+                                Escuchamos, asesoramos y armamos cada viaje como si fuera propio, con compromiso, cercanía y pasión por lo que hacemos.
                             </p>
                         </div>
 
-                        <div className="bg-white/70 backdrop-blur-xl p-8 rounded-3xl shadow-lg border border-white">
-                            <h3 className="text-2xl font-serif font-bold text-primary mb-4 flex items-center gap-3">
-                                <Award className="text-secondary" /> ¿Por qué Elegirnos?
+                        <div className="bg-white/70 backdrop-blur-xl p-6 rounded-3xl shadow-lg border border-white">
+                            <h3 className="text-xl font-serif font-bold text-primary mb-3 flex items-center gap-3">
+                                <Target className="text-secondary" size={24} /> Nuestra Misión
                             </h3>
-                            <p className="text-gray-600 font-sans leading-relaxed">
-                                A diferencia de las plataformas automatizadas, nosotros te ofrecemos soporte humano, real y dedicado. Estudiamos tus gustos, gestionamos la logística pesada y te acompañamos desde que consultas la disponibilidad hasta que regresas felizmente a casa.
+                            <p className="text-gray-600 font-sans leading-relaxed text-sm whitespace-pre-line">
+                                Cada viaje es una historia que empieza con ilusión, sueños y expectativas, y nuestro trabajo es acompañarte para que esa experiencia sea única, tranquila y memorable.{"\n"}
+                                Diseñar y brindar experiencias únicas, con asesoramiento personalizado, confianza y atención en cada detalle.{"\n"}
+                                Viajar no es solo llegar a un destino, sino todo lo que se vive desde el primer momento. Trabajamos para que cada viaje sea simple de planificar, placentero de vivir y memorable para siempre.
+                            </p>
+                        </div>
+
+                        <div className="bg-white/70 backdrop-blur-xl p-6 rounded-3xl shadow-lg border border-white">
+                            <h3 className="text-xl font-serif font-bold text-primary mb-3 flex items-center gap-3">
+                                <Eye className="text-secondary" size={24} /> Nuestra Visión
+                            </h3>
+                            <p className="text-gray-600 font-sans leading-relaxed text-sm whitespace-pre-line">
+                                Ser una agencia de viajes referente por la cercanía, la dedicación y la calidad en cada experiencia, construyendo relaciones duraderas con cada uno de ustedes y siendo parte de sus momentos más importantes.{"\n"}
+                                Queremos que cada uno que viaje con nosotros sienta que eligió más que un servicio: eligió tranquilidad, confianza y recuerdos inolvidables.
                             </p>
                         </div>
                     </motion.div>

@@ -3,11 +3,11 @@ import { motion } from 'framer-motion';
 import { MapPin, Phone, Mail, Clock, Facebook, Instagram, Twitter, MessageCircle } from 'lucide-react';
 
 const contactInfo = {
-    address: 'Av. Corrientes 1234, CABA, Argentina',
-    phone: '+54 11 4321-5678',
+    address: 'Cordoba 1147 - Piso 14 Of 2\nGaleria la Favorita - Rosario Santa Fe',
+    phone: '+54 9 3412 517677',
     email: 'contacto@stechitours.com',
-    hours: 'Lun a Vie: 9:00 - 18:00 hs',
-    whatsapp: '+54 9 11 1234-5678',
+    hours: 'Lun a Vie: 9 a 18:00 hs - con Cita previa',
+    whatsapp: '+54 9 3412 517677',
     mapUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3283.9936886915243!2d-58.38450168477026!3d-34.603738865008535!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccac813f28205%3A0xc47b9ee3f0407a56!2sObelisco!5e0!3m2!1ses-419!2sar!4v1655385621482!5m2!1ses-419!2sar'
 };
 
@@ -64,7 +64,7 @@ const LocationsSection = () => {
                                 </div>
                                 <div>
                                     <h4 className="font-bold text-primary mb-1">Dirección</h4>
-                                    <span>{contactInfo.address}</span>
+                                    <span className="whitespace-pre-line">{contactInfo.address}</span>
                                 </div>
                             </li>
                             <li className="flex items-start gap-4">
@@ -117,10 +117,15 @@ const LocationsSection = () => {
                             </div>
                         </div>
 
-                        <button className="mt-8 w-full bg-[#25D366] hover:bg-[#1ebd5b] text-white font-sans font-bold py-4 px-6 rounded-xl transition-all shadow-lg flex items-center justify-center gap-2 group">
+                        <a 
+                            href="https://wa.me/5493412517677?text=Hola,%20quiero%20consultar%20sobre%20un%20viaje"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="mt-8 w-full bg-[#25D366] hover:bg-[#1ebd5b] text-white font-sans font-bold py-4 px-6 rounded-xl transition-all shadow-lg flex items-center justify-center gap-2 group"
+                        >
                             <MessageCircle size={24} className="group-hover:scale-110 transition-transform" />
                             Chatear por WhatsApp
-                        </button>
+                        </a>
                     </motion.div>
 
                     {/* Columna Derecha: Mapa */}

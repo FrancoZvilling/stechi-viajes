@@ -10,7 +10,12 @@ const fallbackCategories = [
     { id: 4, name: 'Tours de Compras', count: 0, image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=2070&auto=format&fit=crop' }
 ];
 
-const partners = ["Aerolíneas", "Booking", "SkyTeam", "Royal Caribbean", "Marriott", "Hertz"];
+const partners = [
+    "Freeway", "Mahal Tour Operador", "King Midas SRL", 
+    "Tower Travel", "MSC Cruceros", "AssistCard", 
+    "Avis", "Amichi Turismo", "Contrastes SRL"
+];
+const duplicatedPartners = [...partners, ...partners];
 
 const CategoriesPartners = () => {
     const { trips } = useTrips();
@@ -96,23 +101,25 @@ const CategoriesPartners = () => {
                 </div>
 
                 {/* Partners Strip */}
-                <div className="border-t border-gray-200 pt-16">
+                <div id="partners" className="border-t border-gray-200 pt-16 overflow-hidden">
                     <p className="text-center font-sans font-semibold text-gray-400 uppercase tracking-widest text-xs mb-8">
                         Con la confianza de nuestros partners
                     </p>
-                    <div className="flex flex-wrap justify-center items-center gap-10 md:gap-20 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
-                        {partners.map((partner, i) => (
-                            <motion.div
-                                key={i}
-                                initial={{ opacity: 0, y: 10 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: i * 0.1 }}
-                                className="font-serif font-black text-2xl md:text-3xl text-primary"
-                            >
-                                {partner}
-                            </motion.div>
-                        ))}
+                    <div className="relative w-full overflow-hidden flex items-center">
+                        <motion.div
+                            className="flex items-center gap-12 md:gap-24 w-max pr-12 md:pr-24"
+                            animate={{ x: ["0%", "-50%"] }}
+                            transition={{ repeat: Infinity, ease: "linear", duration: 30 }}
+                        >
+                            {duplicatedPartners.map((partner, i) => (
+                                <div
+                                    key={i}
+                                    className="font-serif font-black text-2xl md:text-3xl text-gray-400 opacity-50 hover:opacity-100 hover:text-primary transition-all duration-300 py-4 cursor-default whitespace-nowrap"
+                                >
+                                    {partner}
+                                </div>
+                            ))}
+                        </motion.div>
                     </div>
                 </div>
             </div>

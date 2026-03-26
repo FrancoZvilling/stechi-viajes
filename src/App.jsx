@@ -10,6 +10,9 @@ import Home from './pages/Home';
 import Nosotros from './pages/Nosotros';
 import DestinosPage from './pages/DestinosPage';
 import PackageDetails from './pages/PackageDetails';
+import FAQ from './pages/FAQ';
+import Terms from './pages/Terms';
+import Privacy from './pages/Privacy';
 
 // Admin Pages
 import AdminLogin from './admin/AdminLogin';
@@ -28,6 +31,9 @@ function App() {
             <Route path="/nosotros" element={<Nosotros />} />
             <Route path="/destinos" element={<DestinosPage />} />
             <Route path="/paquete/:id" element={<PackageDetails />} />
+            <Route path="/faq" element={<FAQ />} />
+            <Route path="/terminos" element={<Terms />} />
+            <Route path="/privacidad" element={<Privacy />} />
             
             {/* Admin Routes */}
             <Route path="/admin" element={<AdminLogin />} />

@@ -59,10 +59,20 @@ const ReservationModal = ({ isOpen, onClose }) => {
                         </div>
 
                         {/* Form */}
-                        <form className="space-y-5 relative z-10" onSubmit={(e) => { e.preventDefault(); onClose(); }}>
+                        <form className="space-y-5 relative z-10" onSubmit={(e) => { 
+                            e.preventDefault(); 
+                            const email = e.target.email.value;
+                            const phone = e.target.phone.value;
+                            const message = e.target.consulta.value;
+                            const text = `${message}\n\nMis datos de contacto:\nEmail: ${email}\nTeléfono: ${phone}`;
+                            const url = `https://wa.me/5493412517677?text=${encodeURIComponent(text)}`;
+                            window.open(url, '_blank');
+                            onClose(); 
+                        }}>
                             <div>
                                 <label className="block text-xs font-bold font-sans text-primary uppercase tracking-wider mb-2">Correo Electrónico</label>
                                 <input
+                                    name="email"
                                     type="email"
                                     required
                                     placeholder="ejemplo@correo.com"
@@ -73,9 +83,10 @@ const ReservationModal = ({ isOpen, onClose }) => {
                             <div>
                                 <label className="block text-xs font-bold font-sans text-primary uppercase tracking-wider mb-2">Teléfono</label>
                                 <input
+                                    name="phone"
                                     type="tel"
                                     required
-                                    placeholder="+54 9 11 1234-5678"
+                                    placeholder="+54 9 3412 517677"
                                     className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-gray-700 focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all font-sans"
                                 />
                             </div>
@@ -83,6 +94,7 @@ const ReservationModal = ({ isOpen, onClose }) => {
                             <div>
                                 <label className="block text-xs font-bold font-sans text-primary uppercase tracking-wider mb-2">Consulta</label>
                                 <textarea
+                                    name="consulta"
                                     required
                                     rows="4"
                                     placeholder="Ej: Hola, me interesa recibir más información y presupuesto sobre el viaje a [Destino / Promoción] para la fecha [DD/MM/AAAA] para [X] personas. ¿Podrían confirmarme si hay disponibilidad?"

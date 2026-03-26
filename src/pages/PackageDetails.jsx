@@ -192,7 +192,7 @@ const PackageDetails = () => {
                         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className="bg-white rounded-3xl p-8 shadow-2xl shadow-gray-200/50 border border-gray-100 sticky top-28">
                             <div className="flex justify-between items-start mb-6">
                                 <div className="flex flex-col">
-                                    <span className="text-gray-400 font-bold uppercase text-xs tracking-wider mb-1">Precio Total</span>
+                                    <span className="text-gray-400 font-bold uppercase text-xs tracking-wider mb-1">Desde</span>
                                     <div className="flex items-end gap-3">
                                         <span className={`font-sans font-bold text-primary leading-none ${pkg.price === 'Consultar Tarifa' ? 'text-2xl pt-2' : 'text-4xl'}`}>
                                             {pkg.price}
@@ -218,7 +218,7 @@ const PackageDetails = () => {
                             <button className="w-full bg-secondary hover:bg-blue-600 text-white font-bold py-4 px-8 rounded-full shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all transform mb-4 text-lg">
                                 Reservar Ahora
                             </button>
-                            <a href="https://wa.me/5493541315119" target="_blank" rel="noopener noreferrer" className="w-full bg-green-50 hover:bg-green-500 text-green-600 hover:text-white font-bold py-4 px-8 rounded-full transition-all transform flex items-center justify-center gap-2 border border-green-200 hover:border-green-500">
+                            <a href={`https://wa.me/5493412517677?text=Hola,%20me%20interesa%20recibir%20m%C3%A1s%20informaci%C3%B3n%20sobre%20el%20viaje:%20${encodeURIComponent(pkg.title)}`} target="_blank" rel="noopener noreferrer" className="w-full bg-green-50 hover:bg-green-500 text-green-600 hover:text-white font-bold py-4 px-8 rounded-full transition-all transform flex items-center justify-center gap-2 border border-green-200 hover:border-green-500">
                                 Consultar por Asesor
                             </a>
                         </motion.div>

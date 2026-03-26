@@ -7,13 +7,20 @@ import logoImg from '../assets/logo-navbar.jpg';
 
 const styles = StyleSheet.create({
   page: {
-    flexDirection: 'column',
+    paddingTop: 110,
+    paddingBottom: 70,
+    paddingHorizontal: 40,
     backgroundColor: '#ffffff',
-    padding: 0
+    flexDirection: 'column'
   },
   header: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
     backgroundColor: '#0F172A',
-    padding: 30,
+    padding: 20,
+    paddingHorizontal: 40,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -50,10 +57,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginTop: -5
   },
-  body: {
-    padding: 40,
-    flexGrow: 1
-  },
   sectionTitle: {
     fontSize: 18,
     color: '#0F172A',
@@ -62,24 +65,36 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     fontWeight: 'bold'
   },
-  textContent: {
-    fontSize: 12,
+  paragraph: {
+    fontSize: 11,
     lineHeight: 1.6,
     color: '#334155',
-    textAlign: 'justify'
+    textAlign: 'justify',
+    marginBottom: 8
   },
   footer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
     backgroundColor: '#F8FAFC',
-    padding: 20,
+    padding: 15,
     borderTop: '1px solid #E2E8F0',
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center'
   },
   footerText: {
-    fontSize: 10,
+    fontSize: 9,
     color: '#64748B',
-    textAlign: 'center'
+    textAlign: 'center',
+    marginBottom: 6
+  },
+  pageNumber: {
+    fontSize: 9,
+    color: '#94A3B8',
+    textAlign: 'center',
+    fontWeight: 'bold'
   },
   watermark: {
     position: 'absolute',
@@ -94,10 +109,10 @@ const styles = StyleSheet.create({
 const ItineraryPDF = ({ pkg }) => {
   return (
     <Document>
-      <Page size="A4" style={styles.page}>
+      <Page size="A4" style={styles.page} wrap>
         
-        {/* Header Decorativo */}
-        <View style={styles.header}>
+        {/* Header (Mismo en todas las páginas) */}
+        <View style={styles.header} fixed>
           <Image src={logoImg} style={styles.logo} />
           <View style={styles.headerTextContainer}>
             <Text style={styles.title}>{pkg.title}</Text>
@@ -105,24 +120,33 @@ const ItineraryPDF = ({ pkg }) => {
           </View>
         </View>
 
-        {/* Decoración (avión vectorizado simplificado con SVG o background) - Para react-pdf usamos emojis o shapes simples */}
-        <View style={styles.decorativeBar} />
+        <Image src={logoImg} style={styles.watermark} fixed />
 
-        <Image src={logoImg} style={styles.watermark} />
-
-        {/* Cuerpo del Itinerario */}
-        <View style={styles.body}>
-          <Text style={styles.sectionTitle}>✈️ ITINERARIO OFICIAL DEL VIAJE</Text>
-          <Text style={styles.textContent}>
-            {pkg.itineraryText ? pkg.itineraryText : 'El itinerario de este viaje se encuentra en preparación por uno de nuestros asesores.'}
+        {/* Cuerpo del Itinerario fluyendo naturalmente */}
+        <Text style={styles.sectionTitle}>✈️ ITINERARIO OFICIAL DEL VIAJE</Text>
+        
+        {pkg.itineraryText ? (
+          pkg.itineraryText.split('\n').map((paragraph, index) => (
+            paragraph.trim() !== '' ? (
+              <Text key={index} style={styles.paragraph}>
+                {paragraph}
+              </Text>
+            ) : <Text key={index} style={{ marginBottom: 8 }} />
+          ))
+        ) : (
+          <Text style={styles.paragraph}>
+            El itinerario de este viaje se encuentra en preparación por uno de nuestros asesores.
           </Text>
-        </View>
+        )}
 
-        {/* Pie de Página */}
-        <View style={styles.footer}>
+        {/* Pie de Página (Mismo en todas) */}
+        <View style={styles.footer} fixed>
           <Text style={styles.footerText}>
             Documento generado por Stechi Viajes. Los servicios e itinerarios descritos están sujetos a disponibilidad comercial y variaciones climáticas u operativas. Por cualquier consulta contáctese con su asesor de confianza.
           </Text>
+          <Text style={styles.pageNumber} render={({ pageNumber, totalPages }) => (
+            `Página ${pageNumber} de ${totalPages}`
+          )} fixed />
         </View>
 
       </Page>
