@@ -40,11 +40,13 @@ const DestinosPage = () => {
     // Sync URL params to State
     useEffect(() => {
         const countryParam = searchParams.get('country');
+        const typeParam = searchParams.get('type');
         const startParam = searchParams.get('start');
         const endParam = searchParams.get('end');
         const passengersParam = searchParams.get('passengers');
 
         if (countryParam) setSelectedCountry(countryParam);
+        if (typeParam) setSelectedType(typeParam);
         if (passengersParam) setSelectedPassengers(passengersParam);
         
         if (startParam || endParam) {

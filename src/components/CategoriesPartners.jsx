@@ -68,31 +68,37 @@ const CategoriesPartners = () => {
 
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
                         {displayCategories.map((cat, i) => (
-                            <motion.div
+                            <Link
                                 key={cat.id}
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                whileInView={{ opacity: 1, scale: 1 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: i * 0.1 }}
-                                className="relative rounded-2xl overflow-hidden group cursor-pointer h-48 md:h-64"
+                                to={`/destinos?type=${encodeURIComponent(cat.name)}`}
+                                className="block"
                             >
-                                <img
-                                    src={cat.image}
-                                    alt={cat.name}
-                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/30 to-transparent"></div>
-                                <div className="absolute inset-0 p-4 md:p-6 flex flex-col justify-end">
-                                    {cat.count > 0 && (
-                                        <span className="text-white/80 text-xs font-bold uppercase tracking-wider mb-1">
-                                            {cat.count} {cat.count === 1 ? 'viaje' : 'viajes'}
-                                        </span>
-                                    )}
-                                    <h3 className="font-serif font-bold text-white leading-tight text-lg md:text-xl">
-                                        {cat.name}
-                                    </h3>
-                                </div>
-                            </motion.div>
+                                <motion.div
+                                    initial={{ opacity: 0, scale: 0.9 }}
+                                    whileInView={{ opacity: 1, scale: 1 }}
+                                    viewport={{ once: true }}
+                                    transition={{ delay: i * 0.1 }}
+                                    whileHover={{ y: -5 }}
+                                    className="relative rounded-2xl overflow-hidden group cursor-pointer h-48 md:h-64 shadow-lg hover:shadow-xl transition-all duration-300"
+                                >
+                                    <img
+                                        src={cat.image}
+                                        alt={cat.name}
+                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/30 to-transparent"></div>
+                                    <div className="absolute inset-0 p-4 md:p-6 flex flex-col justify-end">
+                                        {cat.count > 0 && (
+                                            <span className="text-white/80 text-xs font-bold uppercase tracking-wider mb-1">
+                                                {cat.count} {cat.count === 1 ? 'viaje' : 'viajes'}
+                                            </span>
+                                        )}
+                                        <h3 className="font-serif font-bold text-white leading-tight text-lg md:text-xl">
+                                            {cat.name}
+                                        </h3>
+                                    </div>
+                                </motion.div>
+                            </Link>
                         ))}
                     </div>
                     <Link to="/destinos" className="md:hidden mt-6 w-full font-sans font-semibold text-secondary text-center block">

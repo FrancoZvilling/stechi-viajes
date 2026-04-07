@@ -7,48 +7,41 @@ import logoImg from '../assets/logo-navbar.jpg';
 
 const styles = StyleSheet.create({
   page: {
-    paddingTop: 110,
+    paddingTop: 40,
     paddingBottom: 70,
     paddingHorizontal: 40,
     backgroundColor: '#ffffff',
     flexDirection: 'column'
   },
   header: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: '#0F172A',
-    padding: 20,
-    paddingHorizontal: 40,
+    marginBottom: 30,
+    borderBottom: '2px solid #3B82F6',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    borderBottom: '5px solid #3B82F6'
+    paddingBottom: 15
   },
   logo: {
-    width: 140,
-    height: 60,
-    objectFit: 'contain',
-    backgroundColor: 'white',
-    padding: 5,
-    borderRadius: 8
+    width: 120,
+    height: 50,
+    objectFit: 'contain'
   },
   headerTextContainer: {
     flex: 1,
     marginLeft: 20
   },
   title: {
-    fontSize: 26,
-    color: '#ffffff',
+    fontSize: 22,
+    color: '#0F172A',
     fontWeight: 'bold',
     textTransform: 'uppercase'
   },
   subtitle: {
-    fontSize: 12,
-    color: '#93C5FD',
-    marginTop: 5,
-    textTransform: 'uppercase'
+    fontSize: 10,
+    color: '#64748B',
+    marginTop: 4,
+    textTransform: 'uppercase',
+    letterSpacing: 1
   },
   decorativeBar: {
     height: 4,
@@ -98,11 +91,11 @@ const styles = StyleSheet.create({
   },
   watermark: {
     position: 'absolute',
-    top: '30%',
-    left: '10%',
-    opacity: 0.03,
-    width: '80%',
-    transform: 'rotate(-45deg)'
+    top: '35%',
+    left: '15%',
+    opacity: 0.04,
+    width: '70%',
+    transform: 'rotate(-30deg)'
   }
 });
 
@@ -111,16 +104,17 @@ const ItineraryPDF = ({ pkg }) => {
     <Document>
       <Page size="A4" style={styles.page} wrap>
         
-        {/* Header (Mismo en todas las páginas) */}
-        <View style={styles.header} fixed>
-          <Image src={logoImg} style={styles.logo} />
+        {/* Marca de Agua decorativa */}
+        <Image src={logoImg} style={styles.watermark} fixed />
+
+        {/* Header Superior (Título e Info principal) */}
+        <View style={styles.header}>
           <View style={styles.headerTextContainer}>
             <Text style={styles.title}>{pkg.title}</Text>
             <Text style={styles.subtitle}>{pkg.continent} - {pkg.country} | Viaje tipo {pkg.type}</Text>
           </View>
+          <Image src={logoImg} style={styles.logo} />
         </View>
-
-        <Image src={logoImg} style={styles.watermark} fixed />
 
         {/* Cuerpo del Itinerario fluyendo naturalmente */}
         <Text style={styles.sectionTitle}>✈️ ITINERARIO OFICIAL DEL VIAJE</Text>
