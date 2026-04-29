@@ -247,7 +247,7 @@ const HeroSection = () => {
                         </div>
 
                         {/* Submit Button */}
-                        <button type="submit" className="w-full md:w-auto bg-primary hover:bg-secondary text-white py-4 px-8 md:p-5 md:aspect-square rounded-xl md:rounded-full font-bold transition-all shadow-lg hover:shadow-xl flex items-center justify-center transform hover:-translate-y-1">
+                        <button type="submit" className="w-full md:w-auto bg-primary hover:bg-secondary text-white py-4 px-8 md:p-5 md:aspect-square rounded-xl md:rounded-full font-bold transition-all shadow-lg hover:shadow-xl flex items-center justify-center transform hover:-translate-y-1 cursor-pointer">
                             <Search size={24} className="md:mr-0 mr-2" />
                             <span className="md:hidden block">Buscar Viajes</span>
                         </button>

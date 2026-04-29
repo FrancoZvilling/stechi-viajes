@@ -40,7 +40,7 @@ const ScrollToTop = () => {
                     <button
                         onClick={scrollToTop}
                         aria-label="Volver arriba"
-                        className="bg-primary hover:bg-secondary text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 flex items-center justify-center group"
+                        className="bg-primary hover:bg-secondary text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 flex items-center justify-center group cursor-pointer"
                     >
                         <ChevronUp size={24} className="group-hover:-translate-y-1 transition-transform" />
                     </button>

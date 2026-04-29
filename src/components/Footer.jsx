@@ -7,10 +7,10 @@ const Footer = () => {
     return (
         <footer className="bg-primary text-white pt-20 pb-10 border-t-4 border-secondary">
             <div className="container mx-auto px-6 md:px-12">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-16">
                     {/* Brand Column */}
-                    <div className="flex flex-col">
-                        <a href="#" className="flex items-center gap-2 mb-6 group">
+                    <div className="flex flex-col items-center text-center">
+                        <a href="#" className="flex flex-col items-center gap-3 mb-6 group">
                             <div className="w-16 h-auto md:w-20 transition-transform hover:scale-105 flex items-center justify-center shrink-0 bg-white p-1 rounded-xl">
                                 <img src={logoImg} alt="Stechi Tours Logo" className="w-full h-auto object-contain block rounded-lg" />
                             </div>
@@ -18,7 +18,7 @@ const Footer = () => {
                                 <span className="font-serif text-2xl font-bold leading-none text-white tracking-wider">
                                     Stechi Tours
                                 </span>
-                                <span className="font-sans tracking-[0.3em] text-[0.6rem] font-bold leading-none text-secondary">
+                                <span className="font-sans tracking-[0.3em] text-[0.6rem] font-bold leading-none text-secondary mt-1">
                                     VIAJES Y TURISMO
                                 </span>
                             </div>
@@ -26,64 +26,45 @@ const Footer = () => {
                         <p className="font-sans text-white/70 text-sm leading-relaxed mb-6">
                             Hacemos realidad tus sueños de viaje con experiencias únicas y personalizadas. Tu próxima aventura comienza aquí.
                         </p>
-                        <div className="flex gap-4">
-                            <a href="#" className="bg-white/10 hover:bg-secondary p-2 rounded-full transition-colors">
+                        <div className="flex justify-center gap-4">
+                            <a href="#" className="bg-white/10 hover:bg-secondary p-2 rounded-full transition-colors cursor-pointer">
                                 <Facebook size={20} />
                             </a>
-                            <a href="#" className="bg-white/10 hover:bg-secondary p-2 rounded-full transition-colors">
+                            <a href="#" className="bg-white/10 hover:bg-secondary p-2 rounded-full transition-colors cursor-pointer">
                                 <Instagram size={20} />
                             </a>
                         </div>
                     </div>
 
                     {/* Links Column */}
-                    <div>
+                    <div className="flex flex-col items-center text-center">
                         <h4 className="font-serif font-bold text-xl mb-6 relative inline-block">
                             Navegación
-                            <span className="absolute -bottom-2 left-0 w-1/2 h-1 bg-secondary rounded-full"></span>
+                            <span className="absolute -bottom-2 left-1/4 w-1/2 h-1 bg-secondary rounded-full"></span>
                         </h4>
                         <ul className="space-y-3 font-sans text-white/80">
-                            <li><Link to="/" className="hover:text-secondary hover:translate-x-1 inline-block transition-all">Inicio</Link></li>
-                            <li><Link to="/#destinos" className="hover:text-secondary hover:translate-x-1 inline-block transition-all">Destinos Destacados</Link></li>
-                            <li><Link to="/#partners" className="hover:text-secondary hover:translate-x-1 inline-block transition-all">Nuestros Partners</Link></li>
-                            <li><Link to="/#eventos" className="hover:text-secondary hover:translate-x-1 inline-block transition-all">Experiencias y Eventos Globales</Link></li>
-                            <li><Link to="/#contacto" className="hover:text-secondary hover:translate-x-1 inline-block transition-all">Contacto</Link></li>
+                            <li><Link to="/" className="hover:text-secondary hover:-translate-y-0.5 inline-block transition-all cursor-pointer">Inicio</Link></li>
+                            <li><Link to="/#destinos" className="hover:text-secondary hover:-translate-y-0.5 inline-block transition-all cursor-pointer">Destinos Destacados</Link></li>
+                            <li><Link to="/#partners" className="hover:text-secondary hover:-translate-y-0.5 inline-block transition-all cursor-pointer">Nuestros Partners</Link></li>
+                            <li><Link to="/#eventos" className="hover:text-secondary hover:-translate-y-0.5 inline-block transition-all cursor-pointer">Experiencias y Eventos Globales</Link></li>
+                            <li><Link to="/#contacto" className="hover:text-secondary hover:-translate-y-0.5 inline-block transition-all cursor-pointer">Contacto</Link></li>
                         </ul>
                     </div>
 
                     {/* Useful Links Column */}
-                    <div>
+                    <div className="flex flex-col items-center text-center">
                         <h4 className="font-serif font-bold text-xl mb-6 relative inline-block">
                             Enlaces Útiles
-                            <span className="absolute -bottom-2 left-0 w-1/2 h-1 bg-secondary rounded-full"></span>
+                            <span className="absolute -bottom-2 left-1/4 w-1/2 h-1 bg-secondary rounded-full"></span>
                         </h4>
                         <ul className="space-y-3 font-sans text-white/80">
-                            <li><Link to="/faq" className="hover:text-secondary inline-block transition-colors">Preguntas Frecuentes</Link></li>
-                            <li><Link to="/terminos" className="hover:text-secondary inline-block transition-colors">Términos y Condiciones</Link></li>
-                            <li><Link to="/privacidad" className="hover:text-secondary inline-block transition-colors">Políticas de Privacidad</Link></li>
+                            <li><Link to="/faq" className="hover:text-secondary hover:-translate-y-0.5 inline-block transition-all cursor-pointer">Preguntas Frecuentes</Link></li>
+                            <li><Link to="/terminos" className="hover:text-secondary hover:-translate-y-0.5 inline-block transition-all cursor-pointer">Términos y Condiciones</Link></li>
+                            <li><Link to="/privacidad" className="hover:text-secondary hover:-translate-y-0.5 inline-block transition-all cursor-pointer">Políticas de Privacidad</Link></li>
                         </ul>
                     </div>
 
-                    {/* Newsletter Column */}
-                    <div>
-                        <h4 className="font-serif font-bold text-xl mb-6 relative inline-block">
-                            Newsletter
-                            <span className="absolute -bottom-2 left-0 w-1/2 h-1 bg-secondary rounded-full"></span>
-                        </h4>
-                        <p className="font-sans text-white/70 text-sm mb-4">
-                            Suscríbete para recibir las mejores ofertas y promociones exclusivas.
-                        </p>
-                        <form className="flex flex-col gap-3">
-                            <input
-                                type="email"
-                                placeholder="Tu correo electrónico"
-                                className="bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder:text-white/50 focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all font-sans"
-                            />
-                            <button className="bg-secondary hover:bg-white hover:text-primary font-bold py-3 rounded-xl transition-colors font-sans w-full">
-                                Suscribirme
-                            </button>
-                        </form>
-                    </div>
+
                 </div>
 
                 {/* Bottom Bar */}

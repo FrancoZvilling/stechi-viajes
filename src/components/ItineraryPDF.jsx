@@ -119,15 +119,19 @@ const ItineraryPDF = ({ pkg }) => {
         {/* Cuerpo del Itinerario fluyendo naturalmente */}
         <Text style={styles.sectionTitle}>✈️ ITINERARIO OFICIAL DEL VIAJE</Text>
         
-        {pkg.itineraryText ? (
-          pkg.itineraryText.split('\n').map((paragraph, index) => (
+        {pkg.itineraryText ? (() => {
+          // Limpieza de texto para unir líneas cortadas por copy-paste
+          // Une una línea con la siguiente si la siguiente empieza con minúscula (indicando que es parte de la misma oración)
+          const cleanedText = pkg.itineraryText.replace(/\n([a-záéíóúñü])/g, ' $1');
+          
+          return cleanedText.split('\n').map((paragraph, index) => (
             paragraph.trim() !== '' ? (
               <Text key={index} style={styles.paragraph}>
-                {paragraph}
+                {paragraph.trim()}
               </Text>
             ) : <Text key={index} style={{ marginBottom: 8 }} />
-          ))
-        ) : (
+          ));
+        })() : (
           <Text style={styles.paragraph}>
             El itinerario de este viaje se encuentra en preparación por uno de nuestros asesores.
           </Text>

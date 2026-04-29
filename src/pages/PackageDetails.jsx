@@ -242,7 +242,7 @@ const PackageDetails = () => {
                                 Los precios incluyen impuestos y cargos. Valores sujetos a disponibilidad al momento de reservar.
                             </p>
 
-                            <button className="w-full bg-secondary hover:bg-blue-600 text-white font-bold py-4 px-8 rounded-full shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all transform mb-4 text-lg">
+                            <button className="w-full bg-secondary hover:bg-blue-600 text-white font-bold py-4 px-8 rounded-full shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all transform mb-4 text-lg cursor-pointer">
                                 Reservar Ahora
                             </button>
                             <a href={`https://wa.me/5493412517677?text=Hola,%20me%20interesa%20recibir%20m%C3%A1s%20informaci%C3%B3n%20sobre%20el%20viaje:%20${encodeURIComponent(pkg.title)}`} target="_blank" rel="noopener noreferrer" className="w-full bg-green-50 hover:bg-green-500 text-green-600 hover:text-white font-bold py-4 px-8 rounded-full transition-all transform flex items-center justify-center gap-2 border border-green-200 hover:border-green-500">

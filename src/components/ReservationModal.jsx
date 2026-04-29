@@ -51,7 +51,7 @@ const ReservationModal = ({ isOpen, onClose }) => {
                             </div>
                             <button
                                 onClick={onClose}
-                                className="text-gray-400 hover:text-gray-700 bg-gray-50 hover:bg-gray-100 p-2 rounded-full transition-colors"
+                                className="text-gray-400 hover:text-gray-700 bg-gray-50 hover:bg-gray-100 p-2 rounded-full transition-colors cursor-pointer"
                                 aria-label="Cerrar modal"
                             >
                                 <X size={20} />
@@ -105,7 +105,7 @@ const ReservationModal = ({ isOpen, onClose }) => {
 
                             <button
                                 type="submit"
-                                className="w-full bg-primary hover:bg-secondary text-white font-sans font-bold py-4 rounded-xl transition-all shadow-lg flex items-center justify-center gap-2 group mt-8"
+                                className="w-full bg-primary hover:bg-secondary text-white font-sans font-bold py-4 rounded-xl transition-all shadow-lg flex items-center justify-center gap-2 group mt-8 cursor-pointer"
                             >
                                 <span>Enviar Solicitud</span>
                                 <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />

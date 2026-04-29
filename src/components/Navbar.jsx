@@ -75,7 +75,7 @@ const Navbar = ({ onOpenModal }) => {
                     })}
                     <button
                         onClick={onOpenModal}
-                        className="bg-primary hover:bg-secondary text-white font-sans font-semibold py-2 px-6 rounded-full transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                        className="bg-primary hover:bg-secondary text-white font-sans font-semibold py-2 px-6 rounded-full transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 cursor-pointer"
                     >
                         Reservar
                     </button>
@@ -117,7 +117,7 @@ const Navbar = ({ onOpenModal }) => {
                                 setMobileMenuOpen(false);
                                 onOpenModal();
                             }}
-                            className="bg-primary text-white font-sans font-bold py-3 px-8 rounded-full mt-2 shadow-lg"
+                            className="bg-primary text-white font-sans font-bold py-3 px-8 rounded-full mt-2 shadow-lg cursor-pointer"
                         >
                             Reservar Ahora
                         </button>
