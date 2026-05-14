@@ -108,7 +108,7 @@ const LocationsSection = () => {
                                 <a href="#" className="bg-primary/5 hover:bg-primary text-primary hover:text-white p-3 rounded-full transition-all shadow-sm">
                                     <Facebook size={22} />
                                 </a>
-                                <a href="#" className="bg-primary/5 hover:bg-primary text-primary hover:text-white p-3 rounded-full transition-all shadow-sm">
+                                <a href="https://www.instagram.com/stechitours?igsh=MXcyZjVlN2hubjBsbA==" target="_blank" rel="noopener noreferrer" className="bg-primary/5 hover:bg-primary text-primary hover:text-white p-3 rounded-full transition-all shadow-sm">
                                     <Instagram size={22} />
                                 </a>
                             </div>

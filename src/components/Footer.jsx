@@ -30,7 +30,7 @@ const Footer = () => {
                             <a href="#" className="bg-white/10 hover:bg-secondary p-2 rounded-full transition-colors cursor-pointer">
                                 <Facebook size={20} />
                             </a>
-                            <a href="#" className="bg-white/10 hover:bg-secondary p-2 rounded-full transition-colors cursor-pointer">
+                            <a href="https://www.instagram.com/stechitours?igsh=MXcyZjVlN2hubjBsbA==" target="_blank" rel="noopener noreferrer" className="bg-white/10 hover:bg-secondary p-2 rounded-full transition-colors cursor-pointer">
                                 <Instagram size={20} />
                             </a>
                         </div>
