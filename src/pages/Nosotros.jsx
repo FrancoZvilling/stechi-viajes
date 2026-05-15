@@ -62,7 +62,7 @@ const Nosotros = () => {
                     >
                         <div className="absolute inset-0 bg-secondary rounded-[3rem] transform rotate-3 scale-105 opacity-20"></div>
                         <img
-                            src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop"
+                            src="/nosotros.webp"
                             alt="Equipo de Stechi Tours"
                             className="relative w-full h-[500px] object-cover rounded-[3rem] shadow-2xl border-4 border-white z-10"
                         />
